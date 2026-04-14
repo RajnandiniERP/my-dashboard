@@ -3,693 +3,617 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Production Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  :root {
-    --bg: #f5f5f3;
-    --surface: #ffffff;
-    --surface2: #f0f0ee;
-    --border: #e2e2de;
-    --text: #1a1a18;
-    --text2: #6b6b67;
-    --accent: #2563eb;
-    --accent-light: #eff6ff;
-    --accent2: #0ea5e9;
-    --success: #16a34a;
-    --warning: #d97706;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
-    --radius: 10px;
-    --tab-h: 52px;
-  }
+:root{
+  --bg:#f0f2f5;
+  --surface:#fff;
+  --border:#d0d5dd;
+  --border2:#e4e7ec;
+  --text:#101828;
+  --text2:#667085;
+  --text3:#98a2b3;
+  --accent:#1570ef;
+  --accent-bg:#eff8ff;
+  --radius:8px;
+  --font:'IBM Plex Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --shadow:0 1px 3px rgba(16,24,40,.1),0 1px 2px rgba(16,24,40,.06);
+  --shadow-lg:0 4px 8px -2px rgba(16,24,40,.1),0 2px 4px -2px rgba(16,24,40,.06);
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 14px;
-  }
+  /* Signal colors matching your sheet */
+  --urgent:#b91c1c;
+  --urgent-bg:#fee2e2;
+  --critical:#92400e;
+  --critical-bg:#fef3c7;
+  --plan-bg:#dbeafe;
+  --plan:#1e40af;
+  --healthy-bg:#dcfce7;
+  --healthy:#15803d;
+  --old-bg:#f3f4f6;
+  --old:#374151;
+}
 
-  /* ── HEADER ── */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--text);
-  }
-  .logo-icon {
-    width: 30px; height: 30px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .logo-icon svg { width: 16px; height: 16px; fill: white; }
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .refresh-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-    transition: all 0.15s;
-  }
-  .refresh-btn:hover { background: var(--border); color: var(--text); }
-  .refresh-btn svg { width: 14px; height: 14px; }
-  .last-updated {
-    font-size: 12px;
-    color: var(--text2);
-    font-family: 'DM Mono', monospace;
-  }
-  .status-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--success);
-    box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
-  }
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
 
-  /* ── TABS ── */
-  .tabs-wrapper {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 28px;
-    display: flex;
-    gap: 0;
-  }
-  .tab {
-    display: flex; align-items: center; gap: 7px;
-    height: var(--tab-h);
-    padding: 0 18px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 13.5px;
-    color: var(--text2);
-    border-bottom: 2.5px solid transparent;
-    transition: all 0.15s;
-    white-space: nowrap;
-    user-select: none;
-  }
-  .tab:hover { color: var(--text); background: var(--surface2); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab-icon { width: 16px; height: 16px; opacity: 0.7; }
-  .tab.active .tab-icon { opacity: 1; }
+/* ── HEADER ── */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  box-shadow:var(--shadow);
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
+.brand-icon{
+  width:32px;height:32px;background:linear-gradient(135deg,#1570ef,#0040c1);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+}
+.brand-icon svg{width:17px;height:17px;fill:white}
+.header-meta{display:flex;align-items:center;gap:14px}
+.import-status{font-size:12px;color:var(--text2);font-family:var(--mono)}
 
-  /* ── MAIN CONTENT ── */
-  main {
-    padding: 24px 28px;
-    max-width: 1600px;
-  }
+/* IMPORT BUTTON — big, prominent */
+.btn-import{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#1570ef,#0040c1);
+  color:white;border:none;border-radius:8px;
+  padding:9px 20px;font-family:var(--font);font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;box-shadow:0 1px 3px rgba(21,112,239,.4);
+}
+.btn-import:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(21,112,239,.4)}
+.btn-import:active{transform:translateY(0)}
+.btn-import svg{width:15px;height:15px}
+.btn-import.loading{opacity:.75;pointer-events:none}
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+.btn-sm{
+  display:flex;align-items:center;gap:5px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:5px 12px;
+  font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);
+  cursor:pointer;transition:all .15s;
+}
+.btn-sm:hover{background:var(--bg);color:var(--text)}
+.btn-sm svg{width:13px;height:13px}
 
-  /* ── TABLE AREA ── */
-  .table-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .table-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .table-title {
-    font-weight: 600;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .row-count {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2px 10px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    font-family: 'DM Mono', monospace;
-  }
-  .search-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 6px 12px;
-    min-width: 220px;
-  }
-  .search-box svg { width: 14px; height: 14px; color: var(--text2); flex-shrink: 0; }
-  .search-box input {
-    border: none;
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--text);
-    outline: none;
-    width: 100%;
-  }
-  .search-box input::placeholder { color: var(--text2); }
+/* ── TABS ── */
+.tabs-bar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+  display:flex;gap:2px;
+  overflow-x:auto;
+}
+.tab{
+  display:flex;align-items:center;gap:7px;
+  padding:0 16px;height:44px;
+  font-size:13px;font-weight:500;color:var(--text2);
+  border-bottom:2px solid transparent;
+  cursor:pointer;white-space:nowrap;transition:all .15s;
+  user-select:none;
+}
+.tab:hover{color:var(--text);background:#f9fafb}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--border);flex-shrink:0;
+}
+.tab.active .tab-dot,.tab.loaded .tab-dot{background:var(--healthy)}
+.tab-count{
+  background:var(--bg);border:1px solid var(--border2);
+  border-radius:10px;padding:1px 7px;font-size:11px;
+  font-family:var(--mono);color:var(--text3);
+}
+.tab.active .tab-count{background:var(--accent-bg);border-color:#b2ddff;color:var(--accent)}
 
-  .table-wrap {
-    overflow-x: auto;
-    overflow-y: auto;
-    max-height: calc(100vh - 260px);
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  thead th {
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 14px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 12px;
-    color: var(--text2);
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  thead th:hover { background: var(--border); color: var(--text); }
-  thead th .sort-icon { display: inline-block; margin-left: 4px; opacity: 0.4; font-size: 10px; }
-  thead th.sort-asc .sort-icon::after { content: ' ▲'; opacity: 1; }
-  thead th.sort-desc .sort-icon::after { content: ' ▼'; opacity: 1; }
-  thead th:not(.sort-asc):not(.sort-desc) .sort-icon::after { content: ' ⇅'; }
+/* ── TOOLBAR ── */
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;gap:10px;flex-wrap:wrap;
+  background:var(--surface);border-bottom:1px solid var(--border2);
+}
+.toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.toolbar-right{display:flex;align-items:center;gap:8px}
 
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--accent-light); }
-  tbody td {
-    padding: 9px 14px;
-    color: var(--text);
-    white-space: nowrap;
-    font-family: 'DM Mono', monospace;
-    font-size: 12.5px;
-  }
-  tbody td:first-child {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 13px;
-  }
+.search-wrap{
+  display:flex;align-items:center;gap:7px;
+  border:1px solid var(--border);border-radius:7px;
+  padding:5px 10px;background:var(--bg);min-width:200px;
+}
+.search-wrap svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
+.search-wrap input{
+  border:none;background:transparent;
+  font-family:var(--font);font-size:13px;color:var(--text);
+  outline:none;width:100%;
+}
+.search-wrap input::placeholder{color:var(--text3)}
 
-  /* Loading / empty states */
-  .state-box {
-    padding: 60px 20px;
-    text-align: center;
-    color: var(--text2);
-  }
-  .state-box .spinner {
-    width: 32px; height: 32px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin: 0 auto 14px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .state-box p { font-size: 13px; }
+.active-filters{display:flex;gap:5px;flex-wrap:wrap}
+.filter-chip{
+  display:flex;align-items:center;gap:4px;
+  background:var(--accent-bg);border:1px solid #b2ddff;
+  border-radius:20px;padding:2px 8px 2px 10px;
+  font-size:11px;color:var(--accent);font-weight:500;
+}
+.filter-chip button{
+  background:none;border:none;cursor:pointer;
+  color:var(--accent);font-size:13px;padding:0;line-height:1;
+  display:flex;align-items:center;
+}
 
-  /* ── FILTER REPORT (Tab 4) ── */
-  .filter-panel-grid {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-  .filter-sidebar {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 18px;
-    position: sticky;
-    top: 84px;
-  }
-  .filter-sidebar h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-  .filter-group {
-    margin-bottom: 16px;
-  }
-  .filter-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text2);
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .filter-group select {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 7px 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%236b6b67' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    padding-right: 30px;
-  }
-  .filter-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
+.filter-clear-btn{
+  background:none;border:1px solid var(--border);
+  border-radius:6px;padding:4px 10px;
+  font-family:var(--font);font-size:12px;color:var(--text2);
+  cursor:pointer;transition:all .15s;
+}
+.filter-clear-btn:hover{background:var(--bg)}
 
-  .filter-search {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 7px 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-    margin-bottom: 16px;
-  }
-  .filter-search:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
+/* ── MAIN ── */
+main{padding:16px 20px}
+.panel{display:none}
+.panel.active{display:block}
 
-  .sheet-selector {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-  }
-  .sheet-btn {
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    transition: all 0.15s;
-  }
-  .sheet-btn:hover, .sheet-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
+/* ── TABLE CARD ── */
+.tcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
 
-  .clear-btn {
-    width: 100%;
-    padding: 8px;
-    border-radius: 7px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-    margin-top: 4px;
-    transition: all 0.15s;
-  }
-  .clear-btn:hover { background: var(--border); color: var(--text); }
+.table-wrap{overflow:auto;max-height:calc(100vh - 230px)}
 
-  .filter-results-count {
-    font-size: 12px;
-    color: var(--text2);
-    margin-top: 12px;
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-  }
+table{
+  width:100%;border-collapse:collapse;
+  font-size:12.5px;
+}
 
-  /* Pagination */
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .pagination-info { font-size: 12px; color: var(--text2); font-family: 'DM Mono', monospace; }
-  .page-controls { display: flex; gap: 4px; align-items: center; }
-  .page-btn {
-    width: 30px; height: 30px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text2);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.12s;
-  }
-  .page-btn:hover:not(:disabled) { background: var(--surface2); color: var(--text); }
-  .page-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-  .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  .per-page-select {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    background: var(--surface);
-    color: var(--text);
-    outline: none;
-  }
+/* HEADER ROW */
+thead{position:sticky;top:0;z-index:50}
+thead tr{background:#f8fafc}
+thead th{
+  padding:0;
+  border-bottom:2px solid var(--border);
+  border-right:1px solid var(--border2);
+  white-space:nowrap;
+  position:relative;
+  min-width:80px;
+}
+thead th:last-child{border-right:none}
 
-  /* Export button */
-  .export-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-    transition: all 0.15s;
-    text-decoration: none;
-  }
-  .export-btn:hover { background: var(--border); color: var(--text); }
-  .export-btn svg { width: 13px; height: 13px; }
+.th-inner{
+  display:flex;align-items:stretch;
+  height:100%;
+}
+.th-label{
+  flex:1;padding:8px 10px;
+  font-size:11px;font-weight:600;
+  color:var(--text2);text-transform:uppercase;letter-spacing:.04em;
+  cursor:pointer;user-select:none;
+  display:flex;align-items:center;gap:4px;
+  transition:background .1s;
+}
+.th-label:hover{background:#f1f5f9;color:var(--text)}
+.th-label.sort-asc::after{content:'▲';font-size:9px;color:var(--accent)}
+.th-label.sort-desc::after{content:'▼';font-size:9px;color:var(--accent)}
+.th-label:not(.sort-asc):not(.sort-desc)::after{content:'⇅';font-size:9px;opacity:.3}
 
-  @media (max-width: 768px) {
-    main { padding: 14px; }
-    .filter-panel-grid { grid-template-columns: 1fr; }
-    .filter-sidebar { position: static; }
-    header { padding: 0 14px; }
-    .tabs-wrapper { padding: 0 14px; overflow-x: auto; }
-  }
+/* EXCEL-STYLE FILTER BUTTON */
+.th-filter{
+  width:26px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-left:1px solid var(--border2);
+  cursor:pointer;
+  background:transparent;border:none;
+  color:var(--text3);transition:all .1s;
+  font-size:11px;
+}
+.th-filter:hover{background:#e2e8f0;color:var(--text)}
+.th-filter.active{background:var(--accent-bg);color:var(--accent)}
+
+/* FILTER DROPDOWN */
+.filter-popup{
+  position:fixed;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-lg);
+  width:220px;
+  z-index:1000;
+  overflow:hidden;
+  display:none;
+}
+.filter-popup.open{display:block}
+.fp-search{
+  padding:8px;border-bottom:1px solid var(--border2);
+}
+.fp-search input{
+  width:100%;border:1px solid var(--border);border-radius:5px;
+  padding:5px 8px;font-family:var(--font);font-size:12px;
+  outline:none;
+}
+.fp-search input:focus{border-color:var(--accent)}
+.fp-actions{
+  display:flex;gap:6px;padding:6px 8px;
+  border-bottom:1px solid var(--border2);
+}
+.fp-action-btn{
+  flex:1;padding:4px;border-radius:5px;border:1px solid var(--border);
+  background:none;font-family:var(--font);font-size:11px;font-weight:500;
+  cursor:pointer;color:var(--text2);transition:all .1s;
+}
+.fp-action-btn:hover{background:var(--bg)}
+.fp-list{
+  max-height:200px;overflow-y:auto;
+  padding:4px 0;
+}
+.fp-item{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 10px;cursor:pointer;
+  transition:background .1s;
+}
+.fp-item:hover{background:var(--bg)}
+.fp-item input[type=checkbox]{
+  width:14px;height:14px;accent-color:var(--accent);cursor:pointer;
+}
+.fp-item label{
+  font-size:12px;cursor:pointer;flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.fp-footer{
+  padding:7px 8px;border-top:1px solid var(--border2);
+  display:flex;gap:6px;
+}
+.fp-apply{
+  flex:1;background:var(--accent);color:white;border:none;
+  border-radius:5px;padding:5px;font-family:var(--font);
+  font-size:12px;font-weight:600;cursor:pointer;
+}
+.fp-cancel{
+  padding:5px 10px;border:1px solid var(--border);border-radius:5px;
+  background:none;font-family:var(--font);font-size:12px;cursor:pointer;color:var(--text2);
+}
+
+/* BODY ROWS */
+tbody tr{border-bottom:1px solid var(--border2);transition:background .08s}
+tbody tr:hover{background:#f8fafc !important}
+tbody td{
+  padding:6px 10px;
+  border-right:1px solid var(--border2);
+  color:var(--text);
+  font-family:var(--mono);font-size:12px;
+  white-space:nowrap;
+}
+tbody td:last-child{border-right:none}
+tbody td:first-child,tbody td:nth-child(2){
+  font-family:var(--font);font-weight:500;
+}
+
+/* Row number */
+.rn{
+  color:var(--text3);font-size:11px;text-align:center;
+  background:#fafafa;border-right:1px solid var(--border2);
+  min-width:40px;user-select:none;
+}
+
+/* ── SIGNAL COLORS ── */
+.sig-urgent{background:var(--urgent-bg);color:var(--urgent);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
+.sig-critical{background:var(--critical-bg);color:var(--critical);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
+.sig-plan{background:var(--plan-bg);color:var(--plan);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
+.sig-healthy{background:var(--healthy-bg);color:var(--healthy);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
+.sig-old{background:var(--old-bg);color:var(--old);font-weight:500;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
+
+/* Row-level coloring */
+tr.row-urgent{background:#fff5f5}
+tr.row-critical{background:#fffbeb}
+tr.row-plan{background:#f0f9ff}
+tr.row-healthy{background:#f0fdf4}
+
+/* ── PAGINATION ── */
+.pagination{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;border-top:1px solid var(--border2);
+  flex-wrap:wrap;gap:8px;
+}
+.pag-info{font-size:12px;color:var(--text2);font-family:var(--mono)}
+.pag-controls{display:flex;gap:3px;align-items:center}
+.pag-btn{
+  min-width:30px;height:30px;
+  border-radius:6px;border:1px solid var(--border);
+  background:var(--surface);cursor:pointer;
+  font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .1s;
+}
+.pag-btn:hover:not(:disabled){background:var(--bg);color:var(--text)}
+.pag-btn.active{background:var(--accent);border-color:var(--accent);color:white}
+.pag-btn:disabled{opacity:.35;cursor:not-allowed}
+.pag-size{
+  border:1px solid var(--border);border-radius:6px;
+  padding:4px 8px;font-family:var(--font);font-size:12px;
+  background:var(--surface);color:var(--text);outline:none;
+}
+
+/* ── IMPORT SCREEN ── */
+.import-screen{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:400px;gap:20px;text-align:center;
+}
+.import-icon{
+  width:72px;height:72px;border-radius:20px;
+  background:linear-gradient(135deg,#eff8ff,#dbeafe);
+  border:2px solid #b2ddff;
+  display:flex;align-items:center;justify-content:center;
+}
+.import-icon svg{width:36px;height:36px;stroke:var(--accent);fill:none;stroke-width:1.5}
+.import-screen h2{font-size:22px;font-weight:600;color:var(--text)}
+.import-screen p{font-size:14px;color:var(--text2);max-width:380px;line-height:1.6}
+.btn-import-big{
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#1570ef,#0040c1);
+  color:white;border:none;border-radius:10px;
+  padding:14px 32px;font-family:var(--font);font-size:15px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+  box-shadow:0 4px 14px rgba(21,112,239,.35);
+}
+.btn-import-big:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(21,112,239,.4)}
+.btn-import-big svg{width:18px;height:18px}
+.import-progress{
+  width:100%;max-width:360px;
+  display:none;flex-direction:column;gap:10px;align-items:center;
+}
+.prog-bar-wrap{
+  width:100%;height:8px;background:var(--border2);border-radius:4px;overflow:hidden;
+}
+.prog-bar{
+  height:100%;background:linear-gradient(90deg,#1570ef,#0ea5e9);
+  border-radius:4px;width:0%;transition:width .4s ease;
+}
+.prog-label{font-size:13px;color:var(--text2);font-family:var(--mono)}
+
+/* State boxes */
+.state-box{padding:50px 20px;text-align:center;color:var(--text2)}
+.spinner{
+  width:28px;height:28px;
+  border:3px solid var(--border2);border-top-color:var(--accent);
+  border-radius:50%;animation:spin .7s linear infinite;
+  margin:0 auto 12px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── IMPORT MODAL ── */
+#importModal{
+  position:fixed;inset:0;background:rgba(0,0,0,.4);
+  z-index:500;display:none;align-items:center;justify-content:center;
+}
+#importModal.open{display:flex}
+.modal-box{
+  background:var(--surface);border-radius:16px;
+  padding:32px;width:420px;max-width:90vw;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
+  display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;
+}
+.modal-box h3{font-size:18px;font-weight:600}
+.modal-box p{font-size:13px;color:var(--text2);line-height:1.6}
+.modal-progress{width:100%}
+.modal-prog-bar-wrap{width:100%;height:10px;background:var(--border2);border-radius:5px;overflow:hidden;margin:8px 0}
+.modal-prog-bar{height:100%;background:linear-gradient(90deg,#1570ef,#06b6d4);border-radius:5px;width:0%;transition:width .5s ease}
+.modal-steps{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
+.modal-step{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--text2);padding:5px 8px;border-radius:6px;
+}
+.modal-step.done{color:var(--healthy);background:var(--healthy-bg)}
+.modal-step.active{color:var(--accent);background:var(--accent-bg)}
+.modal-step .step-icon{width:18px;height:18px;flex-shrink:0;font-size:14px}
+
+@media(max-width:700px){
+  main{padding:10px}header,div.tabs-bar,div.toolbar{padding-left:10px;padding-right:10px}
+}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-  <div class="logo">
-    <div class="logo-icon">
+  <div class="brand">
+    <div class="brand-icon">
       <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
     </div>
-    Data Dashboard
+    Production Dashboard
   </div>
-  <div class="header-right">
-    <div class="status-dot"></div>
-    <span class="last-updated" id="lastUpdated">–</span>
-    <button class="refresh-btn" onclick="refreshAll()">
+  <div class="header-meta">
+    <span class="import-status" id="importStatus">Not imported yet</span>
+    <button class="btn-sm" id="reImportBtn" onclick="startImport()" style="display:none">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>
-      Refresh
+      Re-Import
+    </button>
+    <button class="btn-sm" id="exportBtn" onclick="exportCurrent()" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
     </button>
   </div>
 </header>
 
-<div class="tabs-wrapper">
-  <div class="tab active" onclick="switchTab(0)" id="tab0">
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    Demand Sensing
+<!-- TABS -->
+<div class="tabs-bar" id="tabsBar">
+  <div class="tab active" id="tab0" onclick="switchTab(0)">
+    <span class="tab-dot"></span>Demand Sensing<span class="tab-count" id="tc0">–</span>
   </div>
-  <div class="tab" onclick="switchTab(1)" id="tab1">
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    Parent Level
+  <div class="tab" id="tab1" onclick="switchTab(1)">
+    <span class="tab-dot"></span>Parent Level<span class="tab-count" id="tc1">–</span>
   </div>
-  <div class="tab" onclick="switchTab(2)" id="tab2">
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-    Order Book
+  <div class="tab" id="tab2" onclick="switchTab(2)">
+    <span class="tab-dot"></span>Order Book<span class="tab-count" id="tc2">–</span>
   </div>
-  <div class="tab" onclick="switchTab(3)" id="tab3">
-    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-    Filter Report
+  <div class="tab" id="tab3" onclick="switchTab(3)">
+    <span class="tab-dot"></span>Filter Report<span class="tab-count" id="tc3">–</span>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="mainToolbar" style="display:none">
+  <div class="toolbar-left">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="globalSearch" placeholder="Search all columns…" oninput="onSearch()">
+    </div>
+    <div class="active-filters" id="activeFilters"></div>
+    <button class="filter-clear-btn" id="clearAllBtn" onclick="clearAllFilters()" style="display:none">✕ Clear All</button>
+  </div>
+  <div class="toolbar-right">
+    <span id="resultCount" style="font-size:12px;color:var(--text2);font-family:var(--mono)"></span>
   </div>
 </div>
 
 <main>
-  <!-- Tab 0: Demand Sensing -->
-  <div class="tab-panel active" id="panel0">
-    <div class="table-card">
-      <div class="table-toolbar">
-        <div class="table-title">
-          Demand Sensing
-          <span class="row-count" id="count0">–</span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <div class="search-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" placeholder="Search…" oninput="filterTable(0, this.value)">
-          </div>
-          <button class="export-btn" onclick="exportCSV(0)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Export
-          </button>
-        </div>
+  <!-- Panel 0: Demand Sensing -->
+  <div class="panel active" id="panel0">
+    <div id="importScreen0" class="import-screen">
+      <div class="import-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       </div>
-      <div class="table-wrap"><div class="state-box" id="loader0"><div class="spinner"></div><p>Loading Demand Sensing…</p></div><table id="table0" style="display:none"><thead id="thead0"></thead><tbody id="tbody0"></tbody></table></div>
-      <div class="pagination" id="pag0" style="display:none">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="pagination-info" id="pagInfo0"></span>
-          <select class="per-page-select" onchange="setPerPage(0, this.value)">
-            <option value="50">50 / page</option>
-            <option value="100">100 / page</option>
-            <option value="250">250 / page</option>
-            <option value="9999">All</option>
-          </select>
-        </div>
-        <div class="page-controls" id="pagControls0"></div>
+      <h2>Import Your Data</h2>
+      <p>Click the button below to load all 3 sheets from your Google Sheet. This only needs to be done once per session.</p>
+      <button class="btn-import-big" onclick="startImport()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Import from Google Sheet
+      </button>
+    </div>
+    <div id="tableWrap0" style="display:none">
+      <div class="tcard">
+        <div class="table-wrap" id="tw0"><table id="tbl0"><thead id="th0"></thead><tbody id="tb0"></tbody></table></div>
+        <div class="pagination" id="pag0"></div>
       </div>
     </div>
   </div>
 
-  <!-- Tab 1: Parent Level -->
-  <div class="tab-panel" id="panel1">
-    <div class="table-card">
-      <div class="table-toolbar">
-        <div class="table-title">
-          Parent Level
-          <span class="row-count" id="count1">–</span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <div class="search-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" placeholder="Search…" oninput="filterTable(1, this.value)">
-          </div>
-          <button class="export-btn" onclick="exportCSV(1)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Export
-          </button>
-        </div>
-      </div>
-      <div class="table-wrap"><div class="state-box" id="loader1"><div class="spinner"></div><p>Loading Parent Level…</p></div><table id="table1" style="display:none"><thead id="thead1"></thead><tbody id="tbody1"></tbody></table></div>
-      <div class="pagination" id="pag1" style="display:none">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="pagination-info" id="pagInfo1"></span>
-          <select class="per-page-select" onchange="setPerPage(1, this.value)">
-            <option value="50">50 / page</option>
-            <option value="100">100 / page</option>
-            <option value="250">250 / page</option>
-            <option value="9999">All</option>
-          </select>
-        </div>
-        <div class="page-controls" id="pagControls1"></div>
+  <!-- Panel 1: Parent Level -->
+  <div class="panel" id="panel1">
+    <div id="tableWrap1" style="display:none">
+      <div class="tcard">
+        <div class="table-wrap" id="tw1"><table id="tbl1"><thead id="th1"></thead><tbody id="tb1"></tbody></table></div>
+        <div class="pagination" id="pag1"></div>
       </div>
     </div>
+    <div class="state-box" id="stateBox1"><p style="color:var(--text3)">Import data to view this sheet</p></div>
   </div>
 
-  <!-- Tab 2: Order Book -->
-  <div class="tab-panel" id="panel2">
-    <div class="table-card">
-      <div class="table-toolbar">
-        <div class="table-title">
-          Order Book
-          <span class="row-count" id="count2">–</span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <div class="search-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" placeholder="Search…" oninput="filterTable(2, this.value)">
-          </div>
-          <button class="export-btn" onclick="exportCSV(2)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Export
-          </button>
-        </div>
-      </div>
-      <div class="table-wrap"><div class="state-box" id="loader2"><div class="spinner"></div><p>Loading Order Book…</p></div><table id="table2" style="display:none"><thead id="thead2"></thead><tbody id="tbody2"></tbody></table></div>
-      <div class="pagination" id="pag2" style="display:none">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="pagination-info" id="pagInfo2"></span>
-          <select class="per-page-select" onchange="setPerPage(2, this.value)">
-            <option value="50">50 / page</option>
-            <option value="100">100 / page</option>
-            <option value="250">250 / page</option>
-            <option value="9999">All</option>
-          </select>
-        </div>
-        <div class="page-controls" id="pagControls2"></div>
+  <!-- Panel 2: Order Book -->
+  <div class="panel" id="panel2">
+    <div id="tableWrap2" style="display:none">
+      <div class="tcard">
+        <div class="table-wrap" id="tw2"><table id="tbl2"><thead id="th2"></thead><tbody id="tb2"></tbody></table></div>
+        <div class="pagination" id="pag2"></div>
       </div>
     </div>
+    <div class="state-box" id="stateBox2"><p style="color:var(--text3)">Import data to view this sheet</p></div>
   </div>
 
-  <!-- Tab 3: Filter Report -->
-  <div class="tab-panel" id="panel3">
-    <div class="filter-panel-grid">
-      <div class="filter-sidebar">
-        <h3>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-          Filters
-        </h3>
-
-        <div style="margin-bottom:12px;">
-          <label style="display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;">Data Source</label>
-          <div class="sheet-selector" id="filterSheetBtns">
-            <button class="sheet-btn active" onclick="selectFilterSheet(0)">Demand Sensing</button>
-            <button class="sheet-btn" onclick="selectFilterSheet(1)">Parent Level</button>
-            <button class="sheet-btn" onclick="selectFilterSheet(2)">Order Book</button>
-          </div>
-        </div>
-
-        <input class="filter-search" type="text" id="filterSearch" placeholder="🔍 Search all columns…" oninput="applyFilters()">
-
-        <div id="filterDropdowns"></div>
-
-        <button class="clear-btn" onclick="clearFilters()">✕ Clear All Filters</button>
-        <div class="filter-results-count" id="filterCount"></div>
+  <!-- Panel 3: Filter Report -->
+  <div class="panel" id="panel3">
+    <div id="filterPanel">
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="btn-sm fsheet-btn active" data-idx="0" onclick="selectFilterSheet(0)">Demand Sensing</button>
+        <button class="btn-sm fsheet-btn" data-idx="1" onclick="selectFilterSheet(1)">Parent Level</button>
+        <button class="btn-sm fsheet-btn" data-idx="2" onclick="selectFilterSheet(2)">Order Book</button>
       </div>
-
-      <div>
-        <div class="table-card">
-          <div class="table-toolbar">
-            <div class="table-title">
-              Filter Report
-              <span class="row-count" id="count3">–</span>
-            </div>
-            <button class="export-btn" onclick="exportFilteredCSV()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Export Filtered
-            </button>
-          </div>
-          <div class="table-wrap"><div class="state-box" id="loader3"><div class="spinner"></div><p>Select a data source…</p></div><table id="table3" style="display:none"><thead id="thead3"></thead><tbody id="tbody3"></tbody></table></div>
-          <div class="pagination" id="pag3" style="display:none">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span class="pagination-info" id="pagInfo3"></span>
-              <select class="per-page-select" onchange="setPerPage(3, this.value)">
-                <option value="50">50 / page</option>
-                <option value="100">100 / page</option>
-                <option value="250">250 / page</option>
-                <option value="9999">All</option>
-              </select>
-            </div>
-            <div class="page-controls" id="pagControls3"></div>
-          </div>
+      <div id="tableWrap3" style="display:none">
+        <div class="tcard">
+          <div class="table-wrap" id="tw3"><table id="tbl3"><thead id="th3"></thead><tbody id="tb3"></tbody></table></div>
+          <div class="pagination" id="pag3"></div>
         </div>
       </div>
+      <div class="state-box" id="stateBox3"><p style="color:var(--text3)">Import data first, then select a sheet above</p></div>
     </div>
   </div>
 </main>
 
-<script>
-// ── CONFIG ──────────────────────────────────────────────────────────
-const BASE_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUsvBi2P7UlPymqL_OH9z5sTY7zb7WTdaNFIAGkyla-TqW_GN7HI-5FV9d1fDJunXuGzVeOuJU8L_i/pub";
+<!-- IMPORT MODAL -->
+<div id="importModal">
+  <div class="modal-box">
+    <div class="import-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <h3 id="modalTitle">Importing Data…</h3>
+    <p id="modalDesc">Fetching all sheets from Google Sheets. Please wait.</p>
+    <div class="modal-progress">
+      <div class="modal-prog-bar-wrap"><div class="modal-prog-bar" id="modalProgBar"></div></div>
+    </div>
+    <div class="modal-steps" id="modalSteps">
+      <div class="modal-step" id="mstep0"><span class="step-icon">⏳</span> Loading Demand Sensing…</div>
+      <div class="modal-step" id="mstep1"><span class="step-icon">⏳</span> Loading Parent Level…</div>
+      <div class="modal-step" id="mstep2"><span class="step-icon">⏳</span> Loading Order Book…</div>
+    </div>
+  </div>
+</div>
 
-// Sheet names → used to build URL. Update gids if needed.
-// If your sheets have different gids, set them here:
+<!-- FILTER POPUP -->
+<div class="filter-popup" id="filterPopup">
+  <div class="fp-search"><input type="text" id="fpSearch" placeholder="Search values…" oninput="fpFilter()"></div>
+  <div class="fp-actions">
+    <button class="fp-action-btn" onclick="fpSelectAll()">Select All</button>
+    <button class="fp-action-btn" onclick="fpClearAll()">Clear All</button>
+  </div>
+  <div class="fp-list" id="fpList"></div>
+  <div class="fp-footer">
+    <button class="fp-cancel" onclick="closeFilterPopup()">Cancel</button>
+    <button class="fp-apply" onclick="applyColumnFilter()">Apply Filter</button>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────────────────
+const BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUsvBi2P7UlPymqL_OH9z5sTY7zb7WTdaNFIAGkyla-TqW_GN7HI-5FV9d1fDJunXuGzVeOuJU8L_i/pub";
 const SHEETS = [
-  { name: "Demand Sensing", gid: "0" },
-  { name: "Parent Level",   gid: "1638204067" },
-  { name: "Order Book",     gid: "1898948601" },
+  { name:"Demand Sensing", gid:"0" },
+  { name:"Parent Level",   gid:"1638204067" },
+  { name:"Order Book",     gid:"1898948601" },
 ];
 
-function sheetURL(gid) {
-  return `${BASE_URL}?gid=${gid}&single=true&output=csv`;
-}
+// Signal color keywords
+const SIGNAL_RULES = [
+  { pattern:/01\s*very\s*urgent/i,  cls:'sig-urgent',   rowCls:'row-urgent'   },
+  { pattern:/02\s*critical/i,       cls:'sig-critical', rowCls:'row-critical' },
+  { pattern:/03\s*plan/i,           cls:'sig-plan',     rowCls:'row-plan'     },
+  { pattern:/04\s*healthy/i,        cls:'sig-healthy',  rowCls:'row-healthy'  },
+  { pattern:/old\s*signal/i,        cls:'sig-old',      rowCls:''             },
+];
 
 // ── STATE ────────────────────────────────────────────────────────────
-const state = {
-  raw: [[], [], []],        // all rows per sheet
-  filtered: [[], [], []],   // after search filter
-  filterFiltered: [],       // filter report rows
-  headers: [[], [], []],
-  sortCol: [-1, -1, -1],
-  sortDir: [1, 1, 1],
-  page: [0, 0, 0, 0],
-  perPage: [50, 50, 50, 50],
-  filterSheet: 0,
-  filterActive: {},
+const S = {
+  raw:[null,null,null],       // raw rows per sheet
+  headers:[null,null,null],
+  colFilters:[{},{},{}],      // col index → Set of selected values
+  search:['','','',''],
+  sortCol:[-1,-1,-1,-1],
+  sortDir:[1,1,1,1],
+  page:[0,0,0,0],
+  perPage:[100,100,100,100],
+  activeTab:0,
+  filterSheet:0,
+  imported:false,
 };
 
-// ── PARSE CSV ────────────────────────────────────────────────────────
-function parseCSV(text) {
-  const rows = [];
-  const lines = text.split(/\r?\n/);
-  for (const line of lines) {
-    if (!line.trim()) continue;
-    const row = [];
-    let cur = '', inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const c = line[i];
-      if (c === '"') {
-        if (inQ && line[i+1] === '"') { cur += '"'; i++; }
-        else inQ = !inQ;
-      } else if (c === ',' && !inQ) {
-        row.push(cur.trim()); cur = '';
-      } else cur += c;
+// ── CSV PARSER ───────────────────────────────────────────────────────
+function parseCSV(text){
+  const rows=[];
+  const lines=text.split(/\r?\n/);
+  for(const line of lines){
+    if(!line.trim())continue;
+    const row=[];let cur='',inQ=false;
+    for(let i=0;i<line.length;i++){
+      const c=line[i];
+      if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+      else if(c===','&&!inQ){row.push(cur.trim());cur='';}
+      else cur+=c;
     }
     row.push(cur.trim());
     rows.push(row);
@@ -697,333 +621,428 @@ function parseCSV(text) {
   return rows;
 }
 
-// ── FETCH SHEET ──────────────────────────────────────────────────────
-async function fetchSheet(idx) {
-  const loader = document.getElementById('loader' + idx);
-  const tbl = document.getElementById('table' + idx);
-
-  try {
-    // Try by gid first
-    let url = sheetURL(SHEETS[idx].gid);
-    let res = await fetch(url);
-
-    // If that fails, try by sheet name
-    if (!res.ok) {
-      url = `${BASE_URL}?output=csv&sheet=${encodeURIComponent(SHEETS[idx].name)}`;
-      res = await fetch(url);
-    }
-
-    if (!res.ok) throw new Error("HTTP " + res.status);
-
-    const text = await res.text();
-    const rows = parseCSV(text);
-    if (rows.length < 1) throw new Error("Empty sheet");
-
-    state.headers[idx] = rows[0];
-    state.raw[idx] = rows.slice(1).filter(r => r.some(c => c !== ''));
-    state.filtered[idx] = [...state.raw[idx]];
-
-    loader.style.display = 'none';
-    tbl.style.display = '';
-
-    renderTableHeader(idx);
-    renderTableBody(idx);
-    updateCount(idx);
-
-    if (idx === state.filterSheet) {
-      buildFilterDropdowns();
-      applyFilters();
-    }
-
-    document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
-
-  } catch (e) {
-    loader.innerHTML = `<p style="color:#ef4444">⚠ Could not load ${SHEETS[idx].name}.<br><small>${e.message}</small><br><br><small>Check the GID in the script config.</small></p>`;
-  }
-}
-
-// ── RENDER TABLE HEADER ──────────────────────────────────────────────
-function renderTableHeader(idx) {
-  const thead = document.getElementById('thead' + idx);
-  const headers = state.headers[idx];
-  let html = '<tr>';
-  headers.forEach((h, ci) => {
-    const cls = state.sortCol[idx] === ci ? (state.sortDir[idx] === 1 ? 'sort-asc' : 'sort-desc') : '';
-    html += `<th class="${cls}" onclick="sortTable(${idx}, ${ci})">${h || '–'}<span class="sort-icon"></span></th>`;
+// ── IMPORT ───────────────────────────────────────────────────────────
+async function startImport(){
+  document.getElementById('importModal').classList.add('open');
+  document.getElementById('modalProgBar').style.width='0%';
+  ['mstep0','mstep1','mstep2'].forEach(id=>{
+    const el=document.getElementById(id);
+    el.className='modal-step';
+    el.querySelector('.step-icon').textContent='⏳';
   });
-  html += '</tr>';
-  thead.innerHTML = html;
-}
 
-// ── RENDER TABLE BODY ────────────────────────────────────────────────
-function renderTableBody(idx) {
-  const tbody = document.getElementById('tbody' + idx);
-  const rows = (idx === 3) ? state.filterFiltered : state.filtered[idx];
-  const pp = state.perPage[idx];
-  const pg = state.page[idx];
-  const start = pg * pp;
-  const slice = pp >= 9999 ? rows : rows.slice(start, start + pp);
-  const headers = (idx === 3) ? state.headers[state.filterSheet] : state.headers[idx];
-
-  if (rows.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="${headers.length || 1}" style="text-align:center;padding:40px;color:var(--text2);">No data found</td></tr>`;
-    document.getElementById('pag' + idx).style.display = 'none';
-    return;
+  let success=0;
+  for(let i=0;i<3;i++){
+    const step=document.getElementById('mstep'+i);
+    step.classList.add('active');
+    step.querySelector('.step-icon').textContent='🔄';
+    try{
+      const url=`${BASE}?gid=${SHEETS[i].gid}&single=true&output=csv`;
+      const res=await fetch(url);
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const text=await res.text();
+      const rows=parseCSV(text);
+      if(rows.length<1) throw new Error('Empty');
+      S.headers[i]=rows[0];
+      S.raw[i]=rows.slice(1).filter(r=>r.some(c=>c!==''));
+      step.classList.remove('active');
+      step.classList.add('done');
+      step.querySelector('.step-icon').textContent='✅';
+      step.querySelector('span:last-child') && (step.lastChild.textContent=`${SHEETS[i].name} — ${S.raw[i].length} rows`);
+      success++;
+    }catch(e){
+      step.classList.remove('active');
+      step.querySelector('.step-icon').textContent='❌';
+    }
+    document.getElementById('modalProgBar').style.width=((i+1)/3*100)+'%';
+    await new Promise(r=>setTimeout(r,300));
   }
 
-  tbody.innerHTML = slice.map(row =>
-    '<tr>' + headers.map((_, ci) => `<td>${row[ci] ?? ''}</td>`).join('') + '</tr>'
-  ).join('');
+  await new Promise(r=>setTimeout(r,500));
+  document.getElementById('importModal').classList.remove('open');
 
-  renderPagination(idx, rows.length);
+  if(success>0){
+    S.imported=true;
+    document.getElementById('importStatus').textContent=`Imported ${new Date().toLocaleTimeString()}`;
+    document.getElementById('reImportBtn').style.display='flex';
+    document.getElementById('exportBtn').style.display='flex';
+    document.getElementById('mainToolbar').style.display='flex';
+
+    // Update tab counts
+    SHEETS.forEach((_,i)=>{
+      if(S.raw[i]) document.getElementById('tc'+i).textContent=S.raw[i].length.toLocaleString();
+      document.getElementById('tab'+i).classList.add('loaded');
+    });
+
+    // Hide import screen, show tables
+    document.getElementById('importScreen0').style.display='none';
+    for(let i=0;i<3;i++){
+      if(S.raw[i]){
+        document.getElementById('tableWrap'+i).style.display='block';
+        if(document.getElementById('stateBox'+i)) document.getElementById('stateBox'+i).style.display='none';
+        initTable(i);
+      }
+    }
+    // Init filter report
+    selectFilterSheet(0);
+    renderAll(S.activeTab);
+  }
 }
 
-// ── PAGINATION ───────────────────────────────────────────────────────
-function renderPagination(idx, total) {
-  const pp = state.perPage[idx];
-  const pg = state.page[idx];
-  const totalPages = pp >= 9999 ? 1 : Math.ceil(total / pp);
-  const pag = document.getElementById('pag' + idx);
-  const info = document.getElementById('pagInfo' + idx);
-  const controls = document.getElementById('pagControls' + idx);
+// ── RENDER TABLE ─────────────────────────────────────────────────────
+function getFilteredRows(idx){
+  if(!S.raw[idx]) return [];
+  let rows=[...S.raw[idx]];
+  // col filters
+  const cf=S.colFilters[idx]||{};
+  for(const [ci,vals] of Object.entries(cf)){
+    if(!vals||vals.size===0) continue;
+    rows=rows.filter(r=>(vals.has(r[+ci]??'')));
+  }
+  // search
+  const q=(S.search[idx]||'').toLowerCase();
+  if(q) rows=rows.filter(r=>r.some(c=>(c||'').toLowerCase().includes(q)));
+  return rows;
+}
 
-  const start = pp >= 9999 ? 1 : pg * pp + 1;
-  const end = pp >= 9999 ? total : Math.min((pg + 1) * pp, total);
-  info.textContent = `${start}–${end} of ${total}`;
-  pag.style.display = 'flex';
+function getDisplayIdx(tab){return tab===3?S.filterSheet:tab;}
 
-  let btns = `<button class="page-btn" onclick="goPage(${idx},${pg-1})" ${pg===0?'disabled':''}>‹</button>`;
-  const max = 7;
-  let pages = [];
-  if (totalPages <= max) {
-    for (let i = 0; i < totalPages; i++) pages.push(i);
+function renderAll(tab){
+  const idx=getDisplayIdx(tab);
+  if(!S.raw[idx]) return;
+
+  let rows=getFilteredRows(idx);
+
+  // Sort
+  const sc=S.sortCol[tab];
+  if(sc>=0){
+    const sd=S.sortDir[tab];
+    rows.sort((a,b)=>{
+      const av=a[sc]??'',bv=b[sc]??'';
+      const an=parseFloat(av),bn=parseFloat(bv);
+      if(!isNaN(an)&&!isNaN(bn)) return (an-bn)*sd;
+      return av.localeCompare(bv)*sd;
+    });
+  }
+
+  // Pagination
+  const pp=S.perPage[tab];
+  const pg=S.page[tab];
+  const total=rows.length;
+  const start=pg*pp;
+  const slice=pp>=9999?rows:rows.slice(start,start+pp);
+
+  // Body
+  const headers=S.headers[idx];
+  const tbody=document.getElementById('tb'+tab);
+  if(!tbody) return;
+
+  if(rows.length===0){
+    tbody.innerHTML=`<tr><td colspan="${headers.length+1}" style="text-align:center;padding:40px;color:var(--text3)">No rows match your filters</td></tr>`;
   } else {
-    pages = [0];
-    if (pg > 2) pages.push('…');
-    for (let i = Math.max(1, pg-1); i <= Math.min(totalPages-2, pg+1); i++) pages.push(i);
-    if (pg < totalPages - 3) pages.push('…');
-    pages.push(totalPages - 1);
+    tbody.innerHTML=slice.map((row,ri)=>{
+      // Determine row signal class
+      let rowCls='';
+      const rowText=row.join(' ');
+      for(const rule of SIGNAL_RULES){
+        if(rule.pattern.test(rowText)&&rule.rowCls){rowCls=rule.rowCls;break;}
+      }
+      const cells=headers.map((_,ci)=>{
+        let val=row[ci]??'';
+        let display=val;
+        // Color signal cells
+        for(const rule of SIGNAL_RULES){
+          if(rule.pattern.test(val)){
+            display=`<span class="${rule.cls}">${val}</span>`;
+            break;
+          }
+        }
+        return `<td>${display}</td>`;
+      });
+      return `<tr class="${rowCls}"><td class="rn">${start+ri+1}</td>${cells.join('')}</tr>`;
+    }).join('');
   }
-  pages.forEach(p => {
-    if (p === '…') btns += `<button class="page-btn" disabled>…</button>`;
-    else btns += `<button class="page-btn ${p===pg?'active':''}" onclick="goPage(${idx},${p})">${p+1}</button>`;
+
+  // Update count badge
+  document.getElementById('tc'+(tab===3?'3':tab)).textContent=total.toLocaleString();
+  document.getElementById('resultCount').textContent=`${total.toLocaleString()} rows`;
+
+  if(tab===3) document.getElementById('tc3').textContent=total.toLocaleString();
+
+  renderPagination(tab, total, rows);
+}
+
+function initTable(idx){
+  renderHeader(idx,idx);
+}
+
+function renderHeader(tab, sheetIdx){
+  const headers=S.headers[sheetIdx];
+  const sc=S.sortCol[tab];
+  const sd=S.sortDir[tab];
+  const thead=document.getElementById('th'+tab);
+  if(!thead||!headers) return;
+
+  const cf=S.colFilters[sheetIdx]||{};
+  const ths=headers.map((h,ci)=>{
+    const hasFilter=cf[ci]&&cf[ci].size>0;
+    const sortCls=sc===ci?(sd===1?'sort-asc':'sort-desc'):'';
+    return `<th>
+      <div class="th-inner">
+        <div class="th-label ${sortCls}" onclick="onSort(${tab},${ci})">${h||'–'}</div>
+        <button class="th-filter${hasFilter?' active':''}" onclick="openFilterPopup(event,${tab},${sheetIdx},${ci})" title="Filter">▾</button>
+      </div>
+    </th>`;
   });
-  btns += `<button class="page-btn" onclick="goPage(${idx},${pg+1})" ${pg===totalPages-1?'disabled':''}>›</button>`;
-  controls.innerHTML = btns;
-}
-
-function goPage(idx, p) {
-  const rows = (idx === 3) ? state.filterFiltered : state.filtered[idx];
-  const totalPages = Math.ceil(rows.length / state.perPage[idx]);
-  if (p < 0 || p >= totalPages) return;
-  state.page[idx] = p;
-  renderTableBody(idx);
-}
-
-function setPerPage(idx, val) {
-  state.perPage[idx] = parseInt(val);
-  state.page[idx] = 0;
-  renderTableBody(idx);
+  thead.innerHTML=`<tr><th style="width:40px;background:#f8fafc;border-right:1px solid var(--border2)"><div style="padding:8px 4px;font-size:10px;color:var(--text3);text-align:center">#</div></th>${ths.join('')}</tr>`;
 }
 
 // ── SORT ─────────────────────────────────────────────────────────────
-function sortTable(idx, col) {
-  if (state.sortCol[idx] === col) state.sortDir[idx] *= -1;
-  else { state.sortCol[idx] = col; state.sortDir[idx] = 1; }
+function onSort(tab,col){
+  if(S.sortCol[tab]===col) S.sortDir[tab]*=-1;
+  else{S.sortCol[tab]=col;S.sortDir[tab]=1;}
+  S.page[tab]=0;
+  renderHeader(tab,getDisplayIdx(tab));
+  renderAll(tab);
+}
 
-  const dir = state.sortDir[idx];
-  const arr = (idx === 3) ? state.filterFiltered : state.filtered[idx];
-  arr.sort((a, b) => {
-    const av = a[col] ?? '', bv = b[col] ?? '';
-    const an = parseFloat(av), bn = parseFloat(bv);
-    if (!isNaN(an) && !isNaN(bn)) return (an - bn) * dir;
-    return av.localeCompare(bv) * dir;
+// ── SEARCH ───────────────────────────────────────────────────────────
+function onSearch(){
+  const q=document.getElementById('globalSearch').value;
+  const tab=S.activeTab;
+  S.search[tab]=q;
+  S.page[tab]=0;
+  renderAll(tab);
+}
+
+// ── COLUMN FILTER POPUP ───────────────────────────────────────────────
+let _fpTab=-1,_fpSheet=-1,_fpCol=-1,_fpAllVals=[];
+
+function openFilterPopup(e,tab,sheetIdx,col){
+  e.stopPropagation();
+  _fpTab=tab;_fpSheet=sheetIdx;_fpCol=col;
+
+  const rows=S.raw[sheetIdx]||[];
+  _fpAllVals=[...new Set(rows.map(r=>r[col]??''))].sort((a,b)=>{
+    const an=parseFloat(a),bn=parseFloat(b);
+    if(!isNaN(an)&&!isNaN(bn)) return an-bn;
+    return a.localeCompare(b);
   });
 
-  if (idx < 3) renderTableHeader(idx);
-  else renderFilterHeader();
-  renderTableBody(idx);
+  const selected=S.colFilters[sheetIdx][col]||new Set(_fpAllVals);
+  document.getElementById('fpSearch').value='';
+  renderFpList(_fpAllVals,selected);
+
+  const popup=document.getElementById('filterPopup');
+  popup.classList.add('open');
+
+  // Position near button
+  const rect=e.target.getBoundingClientRect();
+  const pW=220,pH=320;
+  let left=rect.left;
+  let top=rect.bottom+4;
+  if(left+pW>window.innerWidth) left=window.innerWidth-pW-8;
+  if(top+pH>window.innerHeight) top=rect.top-pH-4;
+  popup.style.left=left+'px';
+  popup.style.top=top+'px';
 }
 
-// ── SEARCH FILTER (per tab) ──────────────────────────────────────────
-function filterTable(idx, q) {
-  const lower = q.toLowerCase();
-  state.filtered[idx] = state.raw[idx].filter(row =>
-    row.some(c => (c || '').toLowerCase().includes(lower))
-  );
-  state.page[idx] = 0;
-  renderTableBody(idx);
-  updateCount(idx);
-}
-
-function updateCount(idx) {
-  const rows = (idx === 3) ? state.filterFiltered : state.filtered[idx];
-  document.getElementById('count' + idx).textContent = rows.length.toLocaleString() + ' rows';
-}
-
-// ── TAB SWITCHING ────────────────────────────────────────────────────
-let loaded = [false, false, false];
-function switchTab(idx) {
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-  document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
-  if (idx < 3 && !loaded[idx]) { loaded[idx] = true; fetchSheet(idx); }
-  if (idx === 3 && !loaded[state.filterSheet]) {
-    loaded[state.filterSheet] = true; fetchSheet(state.filterSheet);
-  }
-}
-
-// ── FILTER REPORT ────────────────────────────────────────────────────
-function selectFilterSheet(idx) {
-  state.filterSheet = idx;
-  state.filterActive = {};
-  document.querySelectorAll('.sheet-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-
-  if (!loaded[idx]) {
-    loaded[idx] = true;
-    fetchSheet(idx).then(() => {
-      buildFilterDropdowns();
-      applyFilters();
-    });
-  } else {
-    buildFilterDropdowns();
-    applyFilters();
-  }
-}
-
-function buildFilterDropdowns() {
-  const idx = state.filterSheet;
-  const headers = state.headers[idx];
-  const rows = state.raw[idx];
-  const cont = document.getElementById('filterDropdowns');
-  if (!headers.length) { cont.innerHTML = ''; return; }
-
-  // Only show first 8 columns max as dropdowns (avoid too many)
-  const maxCols = Math.min(headers.length, 8);
-  let html = '';
-  for (let ci = 0; ci < maxCols; ci++) {
-    const vals = [...new Set(rows.map(r => r[ci] ?? '').filter(v => v !== ''))].sort();
-    if (vals.length < 2 || vals.length > 200) continue; // skip too unique or empty cols
-    html += `<div class="filter-group">
-      <label>${headers[ci]}</label>
-      <select id="fd_${ci}" onchange="applyFilters()">
-        <option value="">All</option>
-        ${vals.map(v => `<option value="${v}">${v}</option>`).join('')}
-      </select>
+function renderFpList(vals,selected){
+  const list=document.getElementById('fpList');
+  list.innerHTML=vals.map(v=>{
+    const chk=selected.has(v)||selected.size===0;
+    const disp=v===''?'(Blank)':v;
+    return `<div class="fp-item">
+      <input type="checkbox" id="fpc_${v.replace(/"/g,'')}" value="${v}" ${chk?'checked':''}>
+      <label for="fpc_${v.replace(/"/g,'')}">${disp}</label>
     </div>`;
+  }).join('');
+}
+
+function fpFilter(){
+  const q=document.getElementById('fpSearch').value.toLowerCase();
+  const filtered=_fpAllVals.filter(v=>v.toLowerCase().includes(q));
+  const selected=S.colFilters[_fpSheet][_fpCol]||new Set(_fpAllVals);
+  renderFpList(filtered,selected);
+}
+
+function fpSelectAll(){
+  document.querySelectorAll('#fpList input').forEach(cb=>cb.checked=true);
+}
+function fpClearAll(){
+  document.querySelectorAll('#fpList input').forEach(cb=>cb.checked=false);
+}
+
+function applyColumnFilter(){
+  const checked=new Set([...document.querySelectorAll('#fpList input:checked')].map(cb=>cb.value));
+  // If all selected = no filter
+  if(checked.size===_fpAllVals.length||checked.size===0){
+    delete S.colFilters[_fpSheet][_fpCol];
+  } else {
+    S.colFilters[_fpSheet][_fpCol]=checked;
   }
-  cont.innerHTML = html || '<p style="font-size:12px;color:var(--text2);">No filterable columns detected.</p>';
+  closeFilterPopup();
+  S.page[_fpTab]=0;
+  renderHeader(_fpTab,_fpSheet);
+  renderAll(_fpTab);
+  updateFilterChips();
 }
 
-function applyFilters() {
-  const idx = state.filterSheet;
-  const rows = state.raw[idx];
-  const headers = state.headers[idx];
-  const searchQ = (document.getElementById('filterSearch')?.value || '').toLowerCase();
+function closeFilterPopup(){document.getElementById('filterPopup').classList.remove('open')}
+document.addEventListener('click',e=>{
+  if(!document.getElementById('filterPopup').contains(e.target)) closeFilterPopup();
+});
 
-  // Collect dropdown values
-  const dropVals = {};
-  headers.forEach((_, ci) => {
-    const el = document.getElementById('fd_' + ci);
-    if (el && el.value) dropVals[ci] = el.value;
+function updateFilterChips(){
+  const tab=S.activeTab;
+  const sheetIdx=getDisplayIdx(tab);
+  const cf=S.colFilters[sheetIdx]||{};
+  const headers=S.headers[sheetIdx]||[];
+  const container=document.getElementById('activeFilters');
+  const clearBtn=document.getElementById('clearAllBtn');
+
+  const chips=Object.entries(cf).filter(([,v])=>v&&v.size>0).map(([ci,vals])=>{
+    const hdr=headers[+ci]||`Col ${+ci+1}`;
+    const preview=[...vals].slice(0,2).join(', ')+(vals.size>2?`…+${vals.size-2}`:'');
+    return `<div class="filter-chip">${hdr}: ${preview}<button onclick="removeChip(${ci})">×</button></div>`;
+  });
+  container.innerHTML=chips.join('');
+  clearBtn.style.display=chips.length?'block':'none';
+}
+
+function removeChip(ci){
+  const sheetIdx=getDisplayIdx(S.activeTab);
+  delete S.colFilters[sheetIdx][ci];
+  S.page[S.activeTab]=0;
+  renderHeader(S.activeTab,sheetIdx);
+  renderAll(S.activeTab);
+  updateFilterChips();
+}
+
+function clearAllFilters(){
+  const sheetIdx=getDisplayIdx(S.activeTab);
+  S.colFilters[sheetIdx]={};
+  S.search[S.activeTab]='';
+  document.getElementById('globalSearch').value='';
+  S.page[S.activeTab]=0;
+  renderHeader(S.activeTab,sheetIdx);
+  renderAll(S.activeTab);
+  updateFilterChips();
+}
+
+// ── PAGINATION ───────────────────────────────────────────────────────
+function renderPagination(tab, total, rows){
+  const pp=S.perPage[tab];
+  const pg=S.page[tab];
+  const totalPages=pp>=9999?1:Math.ceil(total/pp);
+  const pag=document.getElementById('pag'+tab);
+  if(!pag) return;
+
+  if(total===0){pag.innerHTML='';return;}
+
+  const start=pp>=9999?1:pg*pp+1;
+  const end=pp>=9999?total:Math.min((pg+1)*pp,total);
+
+  let pagesBtns='';
+  const mkBtn=(p,lbl,active,disabled)=>
+    `<button class="pag-btn${active?' active':''}${disabled?' ':''}" ${disabled?'disabled':''} onclick="goPage(${tab},${p})">${lbl}</button>`;
+
+  pagesBtns+=mkBtn(pg-1,'‹',false,pg===0);
+  if(totalPages<=7){
+    for(let i=0;i<totalPages;i++) pagesBtns+=mkBtn(i,i+1,i===pg,false);
+  } else {
+    pagesBtns+=mkBtn(0,1,pg===0,false);
+    if(pg>2) pagesBtns+=`<button class="pag-btn" disabled>…</button>`;
+    for(let i=Math.max(1,pg-1);i<=Math.min(totalPages-2,pg+1);i++) pagesBtns+=mkBtn(i,i+1,i===pg,false);
+    if(pg<totalPages-3) pagesBtns+=`<button class="pag-btn" disabled>…</button>`;
+    pagesBtns+=mkBtn(totalPages-1,totalPages,pg===totalPages-1,false);
+  }
+  pagesBtns+=mkBtn(pg+1,'›',false,pg>=totalPages-1);
+
+  pag.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="pag-info">${start.toLocaleString()}–${end.toLocaleString()} of ${total.toLocaleString()}</span>
+      <select class="pag-size" onchange="setPerPage(${tab},this.value)">
+        <option value="50"${pp===50?' selected':''}>50/page</option>
+        <option value="100"${pp===100?' selected':''}>100/page</option>
+        <option value="250"${pp===250?' selected':''}>250/page</option>
+        <option value="500"${pp===500?' selected':''}>500/page</option>
+        <option value="9999"${pp>=9999?' selected':''}>All</option>
+      </select>
+    </div>
+    <div class="pag-controls">${pagesBtns}</div>`;
+}
+
+function goPage(tab,p){
+  const idx=getDisplayIdx(tab);
+  const total=getFilteredRows(idx).length;
+  const tp=Math.ceil(total/S.perPage[tab]);
+  if(p<0||p>=tp) return;
+  S.page[tab]=p;
+  renderAll(tab);
+}
+function setPerPage(tab,v){S.perPage[tab]=parseInt(v);S.page[tab]=0;renderAll(tab);}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────
+function switchTab(idx){
+  S.activeTab=idx;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+
+  if(S.imported){
+    document.getElementById('globalSearch').value='';
+    S.search[idx]='';
+    renderHeader(idx,getDisplayIdx(idx));
+    renderAll(idx);
+    updateFilterChips();
+  }
+}
+
+// ── FILTER REPORT ─────────────────────────────────────────────────────
+function selectFilterSheet(idx){
+  S.filterSheet=idx;
+  document.querySelectorAll('.fsheet-btn').forEach((b,i)=>{
+    b.classList.toggle('active',i===idx);
+    b.style.background=i===idx?'var(--accent)':'';
+    b.style.color=i===idx?'white':'';
+    b.style.borderColor=i===idx?'var(--accent)':'';
   });
 
-  state.filterFiltered = rows.filter(row => {
-    // search
-    if (searchQ && !row.some(c => (c || '').toLowerCase().includes(searchQ))) return false;
-    // dropdowns
-    for (const [ci, val] of Object.entries(dropVals)) {
-      if ((row[ci] ?? '') !== val) return false;
-    }
-    return true;
-  });
+  if(!S.imported||!S.raw[idx]){
+    document.getElementById('tableWrap3').style.display='none';
+    document.getElementById('stateBox3').style.display='block';
+    document.getElementById('stateBox3').innerHTML='<p style="color:var(--text3)">Import data first</p>';
+    return;
+  }
 
-  state.page[3] = 0;
-
-  // Render filter table
-  const loader3 = document.getElementById('loader3');
-  const tbl3 = document.getElementById('table3');
-  loader3.style.display = 'none';
-  tbl3.style.display = '';
-  renderFilterHeader();
-  renderTableBody(3);
-  updateCount(3);
-
-  const n = state.filterFiltered.length;
-  const total = rows.length;
-  document.getElementById('filterCount').textContent = `${n.toLocaleString()} of ${total.toLocaleString()} rows`;
+  document.getElementById('stateBox3').style.display='none';
+  document.getElementById('tableWrap3').style.display='block';
+  renderHeader(3,idx);
+  renderAll(3);
+  updateFilterChips();
 }
 
-function renderFilterHeader() {
-  const headers = state.headers[state.filterSheet];
-  const thead = document.getElementById('thead3');
-  const sc = state.sortCol[3];
-  const sd = state.sortDir[3];
-  let html = '<tr>';
-  headers.forEach((h, ci) => {
-    const cls = sc === ci ? (sd === 1 ? 'sort-asc' : 'sort-desc') : '';
-    html += `<th class="${cls}" onclick="sortTable(3, ${ci})">${h || '–'}<span class="sort-icon"></span></th>`;
-  });
-  html += '</tr>';
-  thead.innerHTML = html;
-}
-
-function clearFilters() {
-  document.getElementById('filterSearch').value = '';
-  document.querySelectorAll('[id^="fd_"]').forEach(el => el.value = '');
-  applyFilters();
-}
-
-// ── EXPORT CSV ───────────────────────────────────────────────────────
-function exportCSV(idx) {
-  const headers = state.headers[idx];
-  const rows = state.filtered[idx];
-  downloadCSV(headers, rows, SHEETS[idx].name + '_export.csv');
-}
-
-function exportFilteredCSV() {
-  const headers = state.headers[state.filterSheet];
-  downloadCSV(headers, state.filterFiltered, 'filter_report_export.csv');
-}
-
-function downloadCSV(headers, rows, filename) {
-  const lines = [headers, ...rows].map(r =>
-    r.map(c => `"${(c || '').replace(/"/g, '""')}"`).join(',')
-  );
-  const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
+// ── EXPORT ───────────────────────────────────────────────────────────
+function exportCurrent(){
+  const tab=S.activeTab;
+  const idx=getDisplayIdx(tab);
+  if(!S.raw[idx]) return;
+  const rows=getFilteredRows(idx);
+  const headers=S.headers[idx];
+  const lines=[headers,...rows].map(r=>r.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(','));
+  const blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`${SHEETS[idx]?.name||'export'}_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
 }
 
-// ── REFRESH ALL ──────────────────────────────────────────────────────
-function refreshAll() {
-  loaded = [false, false, false];
-  state.raw = [[], [], []];
-  state.filtered = [[], [], []];
-  state.filterFiltered = [];
-  state.headers = [[], [], []];
-  state.page = [0, 0, 0, 0];
-
-  const activeIdx = [...document.querySelectorAll('.tab')].findIndex(t => t.classList.contains('active'));
-
-  // Reset loaders
-  for (let i = 0; i < 3; i++) {
-    const loader = document.getElementById('loader' + i);
-    const tbl = document.getElementById('table' + i);
-    loader.innerHTML = `<div class="spinner"></div><p>Loading ${SHEETS[i].name}…</p>`;
-    loader.style.display = '';
-    if (tbl) tbl.style.display = 'none';
-    document.getElementById('pag' + i).style.display = 'none';
-  }
-
-  if (activeIdx < 3) { loaded[activeIdx] = true; fetchSheet(activeIdx); }
-  else { loaded[state.filterSheet] = true; fetchSheet(state.filterSheet); }
-}
-
 // ── INIT ─────────────────────────────────────────────────────────────
-loaded[0] = true;
-fetchSheet(0);
+// Auto-start import on page load
+window.addEventListener('DOMContentLoaded', ()=>{
+  // Small delay so page renders first
+  setTimeout(startImport, 400);
+});
 </script>
 </body>
 </html>
