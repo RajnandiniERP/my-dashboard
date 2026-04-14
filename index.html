@@ -7,716 +7,450 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --bg:#f0f2f5;
-  --surface:#fff;
-  --border:#d0d5dd;
-  --border2:#e4e7ec;
-  --text:#101828;
-  --text2:#667085;
-  --text3:#98a2b3;
-  --accent:#1570ef;
-  --accent-bg:#eff8ff;
-  --radius:8px;
-  --font:'IBM Plex Sans',sans-serif;
-  --mono:'IBM Plex Mono',monospace;
-  --shadow:0 1px 3px rgba(16,24,40,.1),0 1px 2px rgba(16,24,40,.06);
-  --shadow-lg:0 4px 8px -2px rgba(16,24,40,.1),0 2px 4px -2px rgba(16,24,40,.06);
+  --bg:#f0f2f5; --sur:#fff; --bdr:#d0d5dd; --bdr2:#e4e7ec;
+  --txt:#101828; --txt2:#667085; --txt3:#98a2b3;
+  --acc:#1570ef; --acc-bg:#eff8ff;
+  --fnt:'IBM Plex Sans',sans-serif; --mono:'IBM Plex Mono',monospace;
+  --sh:0 1px 3px rgba(16,24,40,.1); --shlg:0 4px 12px rgba(16,24,40,.12);
+  --rad:8px;
+}
+body{font-family:var(--fnt);background:var(--bg);color:var(--txt);font-size:13px;min-height:100vh}
 
-  /* Signal colors matching your sheet */
-  --urgent:#b91c1c;
-  --urgent-bg:#fee2e2;
-  --critical:#92400e;
-  --critical-bg:#fef3c7;
-  --plan-bg:#dbeafe;
-  --plan:#1e40af;
-  --healthy-bg:#dcfce7;
-  --healthy:#15803d;
-  --old-bg:#f3f4f6;
-  --old:#374151;
-}
+/* HEADER */
+header{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 18px;height:54px;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;box-shadow:var(--sh)}
+.logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px}
+.logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#1570ef,#0040c1);border-radius:7px;
+  display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:16px;height:16px;fill:#fff}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.hdr-status{font-size:11px;color:var(--txt3);font-family:var(--mono)}
+.btn{display:flex;align-items:center;gap:5px;border-radius:6px;padding:6px 13px;font-family:var(--fnt);
+  font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:1px solid var(--bdr)}
+.btn-ghost{background:var(--sur);color:var(--txt2)} .btn-ghost:hover{background:var(--bg);color:var(--txt)}
+.btn svg{width:13px;height:13px;flex-shrink:0}
 
-body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
+/* TABS */
+.tabs-bar{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 18px;display:flex;overflow-x:auto}
+.tab{display:flex;align-items:center;gap:6px;padding:0 15px;height:42px;font-size:13px;font-weight:500;
+  color:var(--txt2);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;
+  transition:all .15s;user-select:none}
+.tab:hover{color:var(--txt);background:#f9fafb}
+.tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+.tab-pill{background:var(--bg);border:1px solid var(--bdr2);border-radius:10px;padding:1px 7px;
+  font-size:11px;font-family:var(--mono);color:var(--txt3)}
+.tab.active .tab-pill{background:var(--acc-bg);border-color:#b2ddff;color:var(--acc)}
 
-/* ── HEADER ── */
-header{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 20px;
-  height:56px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:200;
-  box-shadow:var(--shadow);
-}
-.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
-.brand-icon{
-  width:32px;height:32px;background:linear-gradient(135deg,#1570ef,#0040c1);
-  border-radius:8px;display:flex;align-items:center;justify-content:center;
-}
-.brand-icon svg{width:17px;height:17px;fill:white}
-.header-meta{display:flex;align-items:center;gap:14px}
-.import-status{font-size:12px;color:var(--text2);font-family:var(--mono)}
+/* TOOLBAR */
+.toolbar{background:var(--sur);border-bottom:1px solid var(--bdr2);padding:8px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tl-left{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.srch{display:flex;align-items:center;gap:6px;border:1px solid var(--bdr);border-radius:6px;
+  padding:5px 10px;background:var(--bg);min-width:190px}
+.srch svg{width:13px;height:13px;color:var(--txt3);flex-shrink:0}
+.srch input{border:none;background:transparent;font-family:var(--fnt);font-size:12px;color:var(--txt);outline:none;width:100%}
+.srch input::placeholder{color:var(--txt3)}
+.chip{display:flex;align-items:center;gap:4px;background:var(--acc-bg);border:1px solid #b2ddff;
+  border-radius:20px;padding:2px 6px 2px 9px;font-size:11px;color:var(--acc);font-weight:500}
+.chip button{background:none;border:none;cursor:pointer;color:var(--acc);font-size:14px;line-height:1;padding:0}
+.clear-btn{background:none;border:1px solid var(--bdr);border-radius:5px;padding:3px 9px;
+  font-family:var(--fnt);font-size:11px;color:var(--txt2);cursor:pointer}
+.clear-btn:hover{background:var(--bg)}
+.row-info{font-size:11px;color:var(--txt3);font-family:var(--mono)}
 
-/* IMPORT BUTTON — big, prominent */
-.btn-import{
-  display:flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,#1570ef,#0040c1);
-  color:white;border:none;border-radius:8px;
-  padding:9px 20px;font-family:var(--font);font-size:13px;font-weight:600;
-  cursor:pointer;transition:all .2s;box-shadow:0 1px 3px rgba(21,112,239,.4);
-}
-.btn-import:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(21,112,239,.4)}
-.btn-import:active{transform:translateY(0)}
-.btn-import svg{width:15px;height:15px}
-.btn-import.loading{opacity:.75;pointer-events:none}
+/* MAIN */
+main{padding:14px 18px}
+.panel{display:none} .panel.active{display:block}
 
-.btn-sm{
-  display:flex;align-items:center;gap:5px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:6px;padding:5px 12px;
-  font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);
-  cursor:pointer;transition:all .15s;
-}
-.btn-sm:hover{background:var(--bg);color:var(--text)}
-.btn-sm svg{width:13px;height:13px}
+/* TABLE CARD */
+.tcard{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);box-shadow:var(--sh);overflow:hidden}
+.twrap{overflow:auto;max-height:calc(100vh - 220px)}
+table{width:100%;border-collapse:collapse;font-size:12px}
 
-/* ── TABS ── */
-.tabs-bar{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 20px;
-  display:flex;gap:2px;
-  overflow-x:auto;
-}
-.tab{
-  display:flex;align-items:center;gap:7px;
-  padding:0 16px;height:44px;
-  font-size:13px;font-weight:500;color:var(--text2);
-  border-bottom:2px solid transparent;
-  cursor:pointer;white-space:nowrap;transition:all .15s;
-  user-select:none;
-}
-.tab:hover{color:var(--text);background:#f9fafb}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--border);flex-shrink:0;
-}
-.tab.active .tab-dot,.tab.loaded .tab-dot{background:var(--healthy)}
-.tab-count{
-  background:var(--bg);border:1px solid var(--border2);
-  border-radius:10px;padding:1px 7px;font-size:11px;
-  font-family:var(--mono);color:var(--text3);
-}
-.tab.active .tab-count{background:var(--accent-bg);border-color:#b2ddff;color:var(--accent)}
-
-/* ── TOOLBAR ── */
-.toolbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 20px;gap:10px;flex-wrap:wrap;
-  background:var(--surface);border-bottom:1px solid var(--border2);
-}
-.toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.toolbar-right{display:flex;align-items:center;gap:8px}
-
-.search-wrap{
-  display:flex;align-items:center;gap:7px;
-  border:1px solid var(--border);border-radius:7px;
-  padding:5px 10px;background:var(--bg);min-width:200px;
-}
-.search-wrap svg{width:14px;height:14px;color:var(--text3);flex-shrink:0}
-.search-wrap input{
-  border:none;background:transparent;
-  font-family:var(--font);font-size:13px;color:var(--text);
-  outline:none;width:100%;
-}
-.search-wrap input::placeholder{color:var(--text3)}
-
-.active-filters{display:flex;gap:5px;flex-wrap:wrap}
-.filter-chip{
-  display:flex;align-items:center;gap:4px;
-  background:var(--accent-bg);border:1px solid #b2ddff;
-  border-radius:20px;padding:2px 8px 2px 10px;
-  font-size:11px;color:var(--accent);font-weight:500;
-}
-.filter-chip button{
-  background:none;border:none;cursor:pointer;
-  color:var(--accent);font-size:13px;padding:0;line-height:1;
-  display:flex;align-items:center;
-}
-
-.filter-clear-btn{
-  background:none;border:1px solid var(--border);
-  border-radius:6px;padding:4px 10px;
-  font-family:var(--font);font-size:12px;color:var(--text2);
-  cursor:pointer;transition:all .15s;
-}
-.filter-clear-btn:hover{background:var(--bg)}
-
-/* ── MAIN ── */
-main{padding:16px 20px}
-.panel{display:none}
-.panel.active{display:block}
-
-/* ── TABLE CARD ── */
-.tcard{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-
-.table-wrap{overflow:auto;max-height:calc(100vh - 230px)}
-
-table{
-  width:100%;border-collapse:collapse;
-  font-size:12.5px;
-}
-
-/* HEADER ROW */
+/* THEAD */
 thead{position:sticky;top:0;z-index:50}
-thead tr{background:#f8fafc}
+thead tr{background:#f1f5f9}
 thead th{
-  padding:0;
-  border-bottom:2px solid var(--border);
-  border-right:1px solid var(--border2);
-  white-space:nowrap;
-  position:relative;
-  min-width:80px;
+  padding:0;border-right:1px solid var(--bdr2);border-bottom:2px solid var(--bdr);
+  white-space:nowrap;min-width:70px;
 }
 thead th:last-child{border-right:none}
+.th-wrap{display:flex;align-items:stretch;height:36px}
+.th-sort{
+  flex:1;padding:0 8px;display:flex;align-items:center;gap:3px;
+  font-size:10.5px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.04em;
+  cursor:pointer;user-select:none;transition:background .1s;
+}
+.th-sort:hover{background:#e2e8f0;color:var(--txt)}
+.th-sort.asc::after{content:'▲';font-size:8px;color:var(--acc);margin-left:2px}
+.th-sort.desc::after{content:'▼';font-size:8px;color:var(--acc);margin-left:2px}
+.th-sort:not(.asc):not(.desc)::after{content:'⇅';font-size:9px;opacity:.3;margin-left:2px}
 
-.th-inner{
-  display:flex;align-items:stretch;
-  height:100%;
+/* EXCEL FILTER BUTTON on header */
+.th-flt{
+  width:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  background:transparent;border:none;border-left:1px solid var(--bdr2);
+  cursor:pointer;color:var(--txt3);font-size:13px;transition:background .1s;
 }
-.th-label{
-  flex:1;padding:8px 10px;
-  font-size:11px;font-weight:600;
-  color:var(--text2);text-transform:uppercase;letter-spacing:.04em;
-  cursor:pointer;user-select:none;
-  display:flex;align-items:center;gap:4px;
-  transition:background .1s;
-}
-.th-label:hover{background:#f1f5f9;color:var(--text)}
-.th-label.sort-asc::after{content:'▲';font-size:9px;color:var(--accent)}
-.th-label.sort-desc::after{content:'▼';font-size:9px;color:var(--accent)}
-.th-label:not(.sort-asc):not(.sort-desc)::after{content:'⇅';font-size:9px;opacity:.3}
+.th-flt:hover{background:#e2e8f0;color:var(--txt)}
+.th-flt.on{background:#dbeafe;color:var(--acc);font-weight:900}
 
-/* EXCEL-STYLE FILTER BUTTON */
-.th-filter{
-  width:26px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  border-left:1px solid var(--border2);
-  cursor:pointer;
-  background:transparent;border:none;
-  color:var(--text3);transition:all .1s;
-  font-size:11px;
+/* FILTER POPUP */
+#fpop{
+  position:fixed;background:var(--sur);border:1px solid var(--bdr);
+  border-radius:var(--rad);box-shadow:var(--shlg);width:230px;z-index:2000;
+  display:none;flex-direction:column;overflow:hidden;
 }
-.th-filter:hover{background:#e2e8f0;color:var(--text)}
-.th-filter.active{background:var(--accent-bg);color:var(--accent)}
+#fpop.open{display:flex}
+.fp-head{padding:8px;border-bottom:1px solid var(--bdr2)}
+.fp-head input{width:100%;border:1px solid var(--bdr);border-radius:5px;padding:5px 8px;
+  font-family:var(--fnt);font-size:12px;outline:none}
+.fp-head input:focus{border-color:var(--acc)}
+.fp-acts{display:flex;gap:5px;padding:5px 8px;border-bottom:1px solid var(--bdr2)}
+.fp-acts button{flex:1;padding:4px;border:1px solid var(--bdr);border-radius:4px;background:none;
+  font-family:var(--fnt);font-size:11px;cursor:pointer;color:var(--txt2)}
+.fp-acts button:hover{background:var(--bg)}
+.fp-body{max-height:200px;overflow-y:auto;padding:3px 0}
+.fp-row{display:flex;align-items:center;gap:7px;padding:4px 10px;cursor:pointer;transition:background .08s}
+.fp-row:hover{background:var(--bg)}
+.fp-row input[type=checkbox]{width:13px;height:13px;accent-color:var(--acc);cursor:pointer;flex-shrink:0}
+.fp-row label{font-size:12px;cursor:pointer;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fp-foot{display:flex;gap:6px;padding:7px 8px;border-top:1px solid var(--bdr2)}
+.fp-ok{flex:1;background:var(--acc);color:#fff;border:none;border-radius:5px;padding:6px;
+  font-family:var(--fnt);font-size:12px;font-weight:600;cursor:pointer}
+.fp-ok:hover{background:#1460d6}
+.fp-cancel{padding:6px 10px;border:1px solid var(--bdr);border-radius:5px;background:none;
+  font-family:var(--fnt);font-size:12px;cursor:pointer;color:var(--txt2)}
 
-/* FILTER DROPDOWN */
-.filter-popup{
-  position:fixed;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow-lg);
-  width:220px;
-  z-index:1000;
-  overflow:hidden;
-  display:none;
-}
-.filter-popup.open{display:block}
-.fp-search{
-  padding:8px;border-bottom:1px solid var(--border2);
-}
-.fp-search input{
-  width:100%;border:1px solid var(--border);border-radius:5px;
-  padding:5px 8px;font-family:var(--font);font-size:12px;
-  outline:none;
-}
-.fp-search input:focus{border-color:var(--accent)}
-.fp-actions{
-  display:flex;gap:6px;padding:6px 8px;
-  border-bottom:1px solid var(--border2);
-}
-.fp-action-btn{
-  flex:1;padding:4px;border-radius:5px;border:1px solid var(--border);
-  background:none;font-family:var(--font);font-size:11px;font-weight:500;
-  cursor:pointer;color:var(--text2);transition:all .1s;
-}
-.fp-action-btn:hover{background:var(--bg)}
-.fp-list{
-  max-height:200px;overflow-y:auto;
-  padding:4px 0;
-}
-.fp-item{
-  display:flex;align-items:center;gap:8px;
-  padding:5px 10px;cursor:pointer;
-  transition:background .1s;
-}
-.fp-item:hover{background:var(--bg)}
-.fp-item input[type=checkbox]{
-  width:14px;height:14px;accent-color:var(--accent);cursor:pointer;
-}
-.fp-item label{
-  font-size:12px;cursor:pointer;flex:1;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.fp-footer{
-  padding:7px 8px;border-top:1px solid var(--border2);
-  display:flex;gap:6px;
-}
-.fp-apply{
-  flex:1;background:var(--accent);color:white;border:none;
-  border-radius:5px;padding:5px;font-family:var(--font);
-  font-size:12px;font-weight:600;cursor:pointer;
-}
-.fp-cancel{
-  padding:5px 10px;border:1px solid var(--border);border-radius:5px;
-  background:none;font-family:var(--font);font-size:12px;cursor:pointer;color:var(--text2);
-}
-
-/* BODY ROWS */
-tbody tr{border-bottom:1px solid var(--border2);transition:background .08s}
-tbody tr:hover{background:#f8fafc !important}
-tbody td{
-  padding:6px 10px;
-  border-right:1px solid var(--border2);
-  color:var(--text);
-  font-family:var(--mono);font-size:12px;
-  white-space:nowrap;
-}
+/* TBODY */
+tbody tr{border-bottom:1px solid var(--bdr2)}
+tbody tr:hover td{filter:brightness(.94)}
+tbody td{padding:5px 8px;border-right:1px solid var(--bdr2);white-space:nowrap;
+  font-family:var(--mono);font-size:11.5px;color:var(--txt)}
 tbody td:last-child{border-right:none}
-tbody td:first-child,tbody td:nth-child(2){
-  font-family:var(--font);font-weight:500;
-}
+.rn{color:var(--txt3) !important;font-size:10px;text-align:center !important;background:#fafafa;
+  min-width:36px;padding:5px 4px !important;font-family:var(--fnt) !important}
 
-/* Row number */
-.rn{
-  color:var(--text3);font-size:11px;text-align:center;
-  background:#fafafa;border-right:1px solid var(--border2);
-  min-width:40px;user-select:none;
-}
+/* ━━━ SIGNAL ROW BACKGROUNDS ━━━ */
+tr.r-urgent  td{ background:#fff1f2 }
+tr.r-critical td{ background:#fffbeb }
+tr.r-plan    td{ background:#eff6ff }
+tr.r-healthy td{ background:#f0fdf4 }
+tr.r-old     td{ background:#f9fafb }
 
-/* ── SIGNAL COLORS ── */
-.sig-urgent{background:var(--urgent-bg);color:var(--urgent);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
-.sig-critical{background:var(--critical-bg);color:var(--critical);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
-.sig-plan{background:var(--plan-bg);color:var(--plan);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
-.sig-healthy{background:var(--healthy-bg);color:var(--healthy);font-weight:600;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
-.sig-old{background:var(--old-bg);color:var(--old);font-weight:500;font-family:var(--font);border-radius:4px;padding:2px 6px;display:inline-block}
+/* ━━━ SIGNAL BADGES ━━━ */
+.b-urgent  {display:inline-block;background:#dc2626;color:#fff;font-weight:700;font-family:var(--fnt);font-size:11px;border-radius:4px;padding:2px 7px}
+.b-critical{display:inline-block;background:#d97706;color:#fff;font-weight:700;font-family:var(--fnt);font-size:11px;border-radius:4px;padding:2px 7px}
+.b-plan    {display:inline-block;background:#2563eb;color:#fff;font-weight:700;font-family:var(--fnt);font-size:11px;border-radius:4px;padding:2px 7px}
+.b-healthy {display:inline-block;background:#16a34a;color:#fff;font-weight:700;font-family:var(--fnt);font-size:11px;border-radius:4px;padding:2px 7px}
+.b-old     {display:inline-block;background:#6b7280;color:#fff;font-weight:600;font-family:var(--fnt);font-size:11px;border-radius:4px;padding:2px 7px}
 
-/* Row-level coloring */
-tr.row-urgent{background:#fff5f5}
-tr.row-critical{background:#fffbeb}
-tr.row-plan{background:#f0f9ff}
-tr.row-healthy{background:#f0fdf4}
+/* PAGINATION */
+.pag{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;
+  border-top:1px solid var(--bdr2);flex-wrap:wrap;gap:8px}
+.pag-info{font-size:11px;color:var(--txt2);font-family:var(--mono)}
+.pag-ctrl{display:flex;gap:3px;align-items:center}
+.pb{min-width:28px;height:28px;border-radius:5px;border:1px solid var(--bdr);background:var(--sur);
+  cursor:pointer;font-family:var(--fnt);font-size:11px;font-weight:500;color:var(--txt2);
+  display:flex;align-items:center;justify-content:center;padding:0 6px}
+.pb:hover:not(:disabled){background:var(--bg);color:var(--txt)}
+.pb.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.pb:disabled{opacity:.3;cursor:not-allowed}
+.pag-sz{border:1px solid var(--bdr);border-radius:5px;padding:3px 6px;
+  font-family:var(--fnt);font-size:11px;background:var(--sur);color:var(--txt);outline:none}
 
-/* ── PAGINATION ── */
-.pagination{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 16px;border-top:1px solid var(--border2);
-  flex-wrap:wrap;gap:8px;
-}
-.pag-info{font-size:12px;color:var(--text2);font-family:var(--mono)}
-.pag-controls{display:flex;gap:3px;align-items:center}
-.pag-btn{
-  min-width:30px;height:30px;
-  border-radius:6px;border:1px solid var(--border);
-  background:var(--surface);cursor:pointer;
-  font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .1s;
-}
-.pag-btn:hover:not(:disabled){background:var(--bg);color:var(--text)}
-.pag-btn.active{background:var(--accent);border-color:var(--accent);color:white}
-.pag-btn:disabled{opacity:.35;cursor:not-allowed}
-.pag-size{
-  border:1px solid var(--border);border-radius:6px;
-  padding:4px 8px;font-family:var(--font);font-size:12px;
-  background:var(--surface);color:var(--text);outline:none;
-}
+/* IMPORT SCREEN */
+.imp-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:420px;gap:18px;text-align:center}
+.imp-icon{width:70px;height:70px;border-radius:18px;background:linear-gradient(135deg,#eff8ff,#dbeafe);
+  border:2px solid #b2ddff;display:flex;align-items:center;justify-content:center}
+.imp-icon svg{width:34px;height:34px;stroke:var(--acc);fill:none;stroke-width:1.5}
+.imp-screen h2{font-size:20px;font-weight:600}
+.imp-screen p{font-size:13px;color:var(--txt2);max-width:360px;line-height:1.6}
+.imp-btn{display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#1570ef,#0040c1);
+  color:#fff;border:none;border-radius:10px;padding:13px 30px;font-family:var(--fnt);font-size:14px;
+  font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(21,112,239,.35);transition:all .2s}
+.imp-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(21,112,239,.4)}
+.imp-btn svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;flex-shrink:0}
 
-/* ── IMPORT SCREEN ── */
-.import-screen{
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:center;min-height:400px;gap:20px;text-align:center;
-}
-.import-icon{
-  width:72px;height:72px;border-radius:20px;
-  background:linear-gradient(135deg,#eff8ff,#dbeafe);
-  border:2px solid #b2ddff;
-  display:flex;align-items:center;justify-content:center;
-}
-.import-icon svg{width:36px;height:36px;stroke:var(--accent);fill:none;stroke-width:1.5}
-.import-screen h2{font-size:22px;font-weight:600;color:var(--text)}
-.import-screen p{font-size:14px;color:var(--text2);max-width:380px;line-height:1.6}
-.btn-import-big{
-  display:flex;align-items:center;gap:10px;
-  background:linear-gradient(135deg,#1570ef,#0040c1);
-  color:white;border:none;border-radius:10px;
-  padding:14px 32px;font-family:var(--font);font-size:15px;font-weight:600;
-  cursor:pointer;transition:all .2s;
-  box-shadow:0 4px 14px rgba(21,112,239,.35);
-}
-.btn-import-big:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(21,112,239,.4)}
-.btn-import-big svg{width:18px;height:18px}
-.import-progress{
-  width:100%;max-width:360px;
-  display:none;flex-direction:column;gap:10px;align-items:center;
-}
-.prog-bar-wrap{
-  width:100%;height:8px;background:var(--border2);border-radius:4px;overflow:hidden;
-}
-.prog-bar{
-  height:100%;background:linear-gradient(90deg,#1570ef,#0ea5e9);
-  border-radius:4px;width:0%;transition:width .4s ease;
-}
-.prog-label{font-size:13px;color:var(--text2);font-family:var(--mono)}
+/* MODAL */
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;
+  display:none;align-items:center;justify-content:center}
+#modal.open{display:flex}
+.mbox{background:var(--sur);border-radius:14px;padding:28px;width:400px;max-width:92vw;
+  box-shadow:0 20px 50px rgba(0,0,0,.2);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.mbox h3{font-size:17px;font-weight:600}
+.mbox p{font-size:13px;color:var(--txt2)}
+.mpbar-wrap{width:100%;height:8px;background:var(--bdr2);border-radius:4px;overflow:hidden}
+.mpbar{height:100%;background:linear-gradient(90deg,#1570ef,#06b6d4);border-radius:4px;width:0%;transition:width .4s ease}
+.msteps{display:flex;flex-direction:column;gap:5px;width:100%;text-align:left}
+.mstep{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--txt2);padding:5px 8px;border-radius:5px}
+.mstep.active{color:var(--acc);background:var(--acc-bg)}
+.mstep.done{color:#15803d;background:#f0fdf4}
+.mstep.fail{color:#dc2626;background:#fff1f2}
 
-/* State boxes */
-.state-box{padding:50px 20px;text-align:center;color:var(--text2)}
-.spinner{
-  width:28px;height:28px;
-  border:3px solid var(--border2);border-top-color:var(--accent);
-  border-radius:50%;animation:spin .7s linear infinite;
-  margin:0 auto 12px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* Filter sheet tabs */
+.fstabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.fstab{background:var(--sur);border:1px solid var(--bdr);border-radius:20px;padding:4px 14px;
+  font-family:var(--fnt);font-size:12px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all .15s}
+.fstab.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.state-msg{padding:50px 20px;text-align:center;color:var(--txt3);font-size:13px}
 
-/* ── IMPORT MODAL ── */
-#importModal{
-  position:fixed;inset:0;background:rgba(0,0,0,.4);
-  z-index:500;display:none;align-items:center;justify-content:center;
-}
-#importModal.open{display:flex}
-.modal-box{
-  background:var(--surface);border-radius:16px;
-  padding:32px;width:420px;max-width:90vw;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
-  display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;
-}
-.modal-box h3{font-size:18px;font-weight:600}
-.modal-box p{font-size:13px;color:var(--text2);line-height:1.6}
-.modal-progress{width:100%}
-.modal-prog-bar-wrap{width:100%;height:10px;background:var(--border2);border-radius:5px;overflow:hidden;margin:8px 0}
-.modal-prog-bar{height:100%;background:linear-gradient(90deg,#1570ef,#06b6d4);border-radius:5px;width:0%;transition:width .5s ease}
-.modal-steps{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
-.modal-step{
-  display:flex;align-items:center;gap:10px;
-  font-size:13px;color:var(--text2);padding:5px 8px;border-radius:6px;
-}
-.modal-step.done{color:var(--healthy);background:var(--healthy-bg)}
-.modal-step.active{color:var(--accent);background:var(--accent-bg)}
-.modal-step .step-icon{width:18px;height:18px;flex-shrink:0;font-size:14px}
-
-@media(max-width:700px){
-  main{padding:10px}header,div.tabs-bar,div.toolbar{padding-left:10px;padding-right:10px}
-}
+@media(max-width:680px){main,header,.tabs-bar,.toolbar{padding-left:10px;padding-right:10px}}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="brand">
-    <div class="brand-icon">
+  <div class="logo">
+    <div class="logo-icon">
       <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
     </div>
     Production Dashboard
   </div>
-  <div class="header-meta">
-    <span class="import-status" id="importStatus">Not imported yet</span>
-    <button class="btn-sm" id="reImportBtn" onclick="startImport()" style="display:none">
+  <div class="hdr-right">
+    <span class="hdr-status" id="hStatus">Not imported</span>
+    <button class="btn btn-ghost" id="btnReimport" onclick="startImport()" style="display:none">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>
       Re-Import
     </button>
-    <button class="btn-sm" id="exportBtn" onclick="exportCurrent()" style="display:none">
+    <button class="btn btn-ghost" id="btnExport" onclick="exportCurrent()" style="display:none">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Export CSV
     </button>
   </div>
 </header>
 
-<!-- TABS -->
-<div class="tabs-bar" id="tabsBar">
-  <div class="tab active" id="tab0" onclick="switchTab(0)">
-    <span class="tab-dot"></span>Demand Sensing<span class="tab-count" id="tc0">–</span>
-  </div>
-  <div class="tab" id="tab1" onclick="switchTab(1)">
-    <span class="tab-dot"></span>Parent Level<span class="tab-count" id="tc1">–</span>
-  </div>
-  <div class="tab" id="tab2" onclick="switchTab(2)">
-    <span class="tab-dot"></span>Order Book<span class="tab-count" id="tc2">–</span>
-  </div>
-  <div class="tab" id="tab3" onclick="switchTab(3)">
-    <span class="tab-dot"></span>Filter Report<span class="tab-count" id="tc3">–</span>
-  </div>
+<div class="tabs-bar">
+  <div class="tab active" id="tab0" onclick="gotoTab(0)">Demand Sensing <span class="tab-pill" id="tp0">–</span></div>
+  <div class="tab" id="tab1" onclick="gotoTab(1)">Parent Level <span class="tab-pill" id="tp1">–</span></div>
+  <div class="tab" id="tab2" onclick="gotoTab(2)">Order Book <span class="tab-pill" id="tp2">–</span></div>
+  <div class="tab" id="tab3" onclick="gotoTab(3)">Filter Report <span class="tab-pill" id="tp3">–</span></div>
 </div>
 
-<!-- TOOLBAR -->
-<div class="toolbar" id="mainToolbar" style="display:none">
-  <div class="toolbar-left">
-    <div class="search-wrap">
+<div class="toolbar" id="toolbar" style="display:none">
+  <div class="tl-left">
+    <div class="srch">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="globalSearch" placeholder="Search all columns…" oninput="onSearch()">
+      <input type="text" id="srchInput" placeholder="Search all columns…" oninput="onSearch()">
     </div>
-    <div class="active-filters" id="activeFilters"></div>
-    <button class="filter-clear-btn" id="clearAllBtn" onclick="clearAllFilters()" style="display:none">✕ Clear All</button>
+    <div id="chipArea"></div>
+    <button class="clear-btn" id="clearBtn" onclick="clearAll()" style="display:none">✕ Clear All</button>
   </div>
-  <div class="toolbar-right">
-    <span id="resultCount" style="font-size:12px;color:var(--text2);font-family:var(--mono)"></span>
-  </div>
+  <span class="row-info" id="rowInfo"></span>
 </div>
 
 <main>
-  <!-- Panel 0: Demand Sensing -->
   <div class="panel active" id="panel0">
-    <div id="importScreen0" class="import-screen">
-      <div class="import-icon">
+    <div class="imp-screen" id="impScreen">
+      <div class="imp-icon">
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       </div>
-      <h2>Import Your Data</h2>
-      <p>Click the button below to load all 3 sheets from your Google Sheet. This only needs to be done once per session.</p>
-      <button class="btn-import-big" onclick="startImport()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <h2>Import Your Google Sheet</h2>
+      <p>One click loads all 3 sheets with colours, column filters and sorting. No repeated refresh needed.</p>
+      <button class="imp-btn" onclick="startImport()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Import from Google Sheet
       </button>
     </div>
-    <div id="tableWrap0" style="display:none">
-      <div class="tcard">
-        <div class="table-wrap" id="tw0"><table id="tbl0"><thead id="th0"></thead><tbody id="tb0"></tbody></table></div>
-        <div class="pagination" id="pag0"></div>
-      </div>
+    <div id="wrap0" style="display:none">
+      <div class="tcard"><div class="twrap"><table><thead id="thead0"></thead><tbody id="tbody0"></tbody></table></div><div class="pag" id="pag0"></div></div>
     </div>
   </div>
 
-  <!-- Panel 1: Parent Level -->
   <div class="panel" id="panel1">
-    <div id="tableWrap1" style="display:none">
-      <div class="tcard">
-        <div class="table-wrap" id="tw1"><table id="tbl1"><thead id="th1"></thead><tbody id="tb1"></tbody></table></div>
-        <div class="pagination" id="pag1"></div>
-      </div>
+    <div class="state-msg" id="state1">Import data first</div>
+    <div id="wrap1" style="display:none">
+      <div class="tcard"><div class="twrap"><table><thead id="thead1"></thead><tbody id="tbody1"></tbody></table></div><div class="pag" id="pag1"></div></div>
     </div>
-    <div class="state-box" id="stateBox1"><p style="color:var(--text3)">Import data to view this sheet</p></div>
   </div>
 
-  <!-- Panel 2: Order Book -->
   <div class="panel" id="panel2">
-    <div id="tableWrap2" style="display:none">
-      <div class="tcard">
-        <div class="table-wrap" id="tw2"><table id="tbl2"><thead id="th2"></thead><tbody id="tb2"></tbody></table></div>
-        <div class="pagination" id="pag2"></div>
-      </div>
+    <div class="state-msg" id="state2">Import data first</div>
+    <div id="wrap2" style="display:none">
+      <div class="tcard"><div class="twrap"><table><thead id="thead2"></thead><tbody id="tbody2"></tbody></table></div><div class="pag" id="pag2"></div></div>
     </div>
-    <div class="state-box" id="stateBox2"><p style="color:var(--text3)">Import data to view this sheet</p></div>
   </div>
 
-  <!-- Panel 3: Filter Report -->
   <div class="panel" id="panel3">
-    <div id="filterPanel">
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <button class="btn-sm fsheet-btn active" data-idx="0" onclick="selectFilterSheet(0)">Demand Sensing</button>
-        <button class="btn-sm fsheet-btn" data-idx="1" onclick="selectFilterSheet(1)">Parent Level</button>
-        <button class="btn-sm fsheet-btn" data-idx="2" onclick="selectFilterSheet(2)">Order Book</button>
-      </div>
-      <div id="tableWrap3" style="display:none">
-        <div class="tcard">
-          <div class="table-wrap" id="tw3"><table id="tbl3"><thead id="th3"></thead><tbody id="tb3"></tbody></table></div>
-          <div class="pagination" id="pag3"></div>
-        </div>
-      </div>
-      <div class="state-box" id="stateBox3"><p style="color:var(--text3)">Import data first, then select a sheet above</p></div>
+    <div class="fstabs" id="fstabs">
+      <button class="fstab on" onclick="setFSheet(0)">Demand Sensing</button>
+      <button class="fstab" onclick="setFSheet(1)">Parent Level</button>
+      <button class="fstab" onclick="setFSheet(2)">Order Book</button>
+    </div>
+    <div class="state-msg" id="state3">Import data first, then select a sheet above</div>
+    <div id="wrap3" style="display:none">
+      <div class="tcard"><div class="twrap"><table><thead id="thead3"></thead><tbody id="tbody3"></tbody></table></div><div class="pag" id="pag3"></div></div>
     </div>
   </div>
 </main>
 
 <!-- IMPORT MODAL -->
-<div id="importModal">
-  <div class="modal-box">
-    <div class="import-icon">
+<div id="modal">
+  <div class="mbox">
+    <div class="imp-icon">
       <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     </div>
-    <h3 id="modalTitle">Importing Data…</h3>
-    <p id="modalDesc">Fetching all sheets from Google Sheets. Please wait.</p>
-    <div class="modal-progress">
-      <div class="modal-prog-bar-wrap"><div class="modal-prog-bar" id="modalProgBar"></div></div>
-    </div>
-    <div class="modal-steps" id="modalSteps">
-      <div class="modal-step" id="mstep0"><span class="step-icon">⏳</span> Loading Demand Sensing…</div>
-      <div class="modal-step" id="mstep1"><span class="step-icon">⏳</span> Loading Parent Level…</div>
-      <div class="modal-step" id="mstep2"><span class="step-icon">⏳</span> Loading Order Book…</div>
+    <h3>Importing Data…</h3>
+    <p>Fetching all 3 sheets from Google Sheets. Please wait.</p>
+    <div class="mpbar-wrap"><div class="mpbar" id="mpbar"></div></div>
+    <div class="msteps">
+      <div class="mstep" id="ms0">⏳  Demand Sensing</div>
+      <div class="mstep" id="ms1">⏳  Parent Level</div>
+      <div class="mstep" id="ms2">⏳  Order Book</div>
     </div>
   </div>
 </div>
 
 <!-- FILTER POPUP -->
-<div class="filter-popup" id="filterPopup">
-  <div class="fp-search"><input type="text" id="fpSearch" placeholder="Search values…" oninput="fpFilter()"></div>
-  <div class="fp-actions">
-    <button class="fp-action-btn" onclick="fpSelectAll()">Select All</button>
-    <button class="fp-action-btn" onclick="fpClearAll()">Clear All</button>
+<div id="fpop">
+  <div class="fp-head"><input type="text" id="fpSearch" placeholder="🔍 Search values…" oninput="fpRender()"></div>
+  <div class="fp-acts">
+    <button onclick="fpAll()">Select All</button>
+    <button onclick="fpNone()">Clear All</button>
   </div>
-  <div class="fp-list" id="fpList"></div>
-  <div class="fp-footer">
-    <button class="fp-cancel" onclick="closeFilterPopup()">Cancel</button>
-    <button class="fp-apply" onclick="applyColumnFilter()">Apply Filter</button>
+  <div class="fp-body" id="fpBody"></div>
+  <div class="fp-foot">
+    <button class="fp-cancel" onclick="fpClose()">Cancel</button>
+    <button class="fp-ok" onclick="fpApply()">Apply Filter</button>
   </div>
 </div>
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────────
-const BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQUsvBi2P7UlPymqL_OH9z5sTY7zb7WTdaNFIAGkyla-TqW_GN7HI-5FV9d1fDJunXuGzVeOuJU8L_i/pub";
-const SHEETS = [
-  { name:"Demand Sensing", gid:"0" },
-  { name:"Parent Level",   gid:"1638204067" },
-  { name:"Order Book",     gid:"1898948601" },
+// ═══════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════
+const BASE="https://docs.google.com/spreadsheets/d/e/2PACX-1vQUsvBi2P7UlPymqL_OH9z5sTY7zb7WTdaNFIAGkyla-TqW_GN7HI-5FV9d1fDJunXuGzVeOuJU8L_i/pub";
+const SHEETS=[
+  {name:"Demand Sensing",gid:"0"},
+  {name:"Parent Level",  gid:"1638204067"},
+  {name:"Order Book",    gid:"1898948601"},
 ];
 
-// Signal color keywords
-const SIGNAL_RULES = [
-  { pattern:/01\s*very\s*urgent/i,  cls:'sig-urgent',   rowCls:'row-urgent'   },
-  { pattern:/02\s*critical/i,       cls:'sig-critical', rowCls:'row-critical' },
-  { pattern:/03\s*plan/i,           cls:'sig-plan',     rowCls:'row-plan'     },
-  { pattern:/04\s*healthy/i,        cls:'sig-healthy',  rowCls:'row-healthy'  },
-  { pattern:/old\s*signal/i,        cls:'sig-old',      rowCls:''             },
-];
+// Signal rules — check each cell value
+function getSig(v){
+  const s=(v||'').trim();
+  if(/01\s*very\s*urgent/i.test(s)) return 'urgent';
+  if(/02\s*critical/i.test(s))      return 'critical';
+  if(/03\s*plan/i.test(s))          return 'plan';
+  if(/04\s*healthy/i.test(s))       return 'healthy';
+  if(/old\s*signal/i.test(s))       return 'old';
+  return null;
+}
+const BADGE={urgent:'b-urgent',critical:'b-critical',plan:'b-plan',healthy:'b-healthy',old:'b-old'};
+const ROWCLS={urgent:'r-urgent',critical:'r-critical',plan:'r-plan',healthy:'r-healthy',old:'r-old'};
 
-// ── STATE ────────────────────────────────────────────────────────────
-const S = {
-  raw:[null,null,null],       // raw rows per sheet
-  headers:[null,null,null],
-  colFilters:[{},{},{}],      // col index → Set of selected values
-  search:['','','',''],
-  sortCol:[-1,-1,-1,-1],
-  sortDir:[1,1,1,1],
-  page:[0,0,0,0],
-  perPage:[100,100,100,100],
-  activeTab:0,
-  filterSheet:0,
-  imported:false,
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+const D={
+  raw:[null,null,null],
+  hdr:[null,null,null],
+  colF:[{},{},{},{}],  // filters keyed by sheetIdx (tab3 uses D.fSheet)
+  srch:['','','',''],
+  sCol:[-1,-1,-1,-1],
+  sDir:[1,1,1,1],
+  pg:[0,0,0,0],
+  pp:[100,100,100,100],
+  tab:0,
+  fSheet:0,
+  ok:false,
 };
 
-// ── CSV PARSER ───────────────────────────────────────────────────────
-function parseCSV(text){
+// ═══════════════════════════════════
+// CSV PARSER
+// ═══════════════════════════════════
+function parseCSV(txt){
   const rows=[];
-  const lines=text.split(/\r?\n/);
-  for(const line of lines){
-    if(!line.trim())continue;
-    const row=[];let cur='',inQ=false;
-    for(let i=0;i<line.length;i++){
-      const c=line[i];
-      if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
-      else if(c===','&&!inQ){row.push(cur.trim());cur='';}
+  for(const ln of txt.split(/\r?\n/)){
+    if(!ln.trim()) continue;
+    const row=[]; let cur='',q=false;
+    for(let i=0;i<ln.length;i++){
+      const c=ln[i];
+      if(c==='"'){if(q&&ln[i+1]==='"'){cur+='"';i++}else q=!q}
+      else if(c===','&&!q){row.push(cur.trim());cur=''}
       else cur+=c;
     }
-    row.push(cur.trim());
-    rows.push(row);
+    row.push(cur.trim()); rows.push(row);
   }
   return rows;
 }
 
-// ── IMPORT ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════
+// IMPORT
+// ═══════════════════════════════════
 async function startImport(){
-  document.getElementById('importModal').classList.add('open');
-  document.getElementById('modalProgBar').style.width='0%';
-  ['mstep0','mstep1','mstep2'].forEach(id=>{
-    const el=document.getElementById(id);
-    el.className='modal-step';
-    el.querySelector('.step-icon').textContent='⏳';
-  });
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('mpbar').style.width='0%';
+  [0,1,2].forEach(i=>{const e=document.getElementById('ms'+i);e.className='mstep';e.textContent='⏳  '+SHEETS[i].name;});
 
-  let success=0;
   for(let i=0;i<3;i++){
-    const step=document.getElementById('mstep'+i);
-    step.classList.add('active');
-    step.querySelector('.step-icon').textContent='🔄';
+    const ms=document.getElementById('ms'+i);
+    ms.classList.add('active'); ms.textContent='🔄  Loading '+SHEETS[i].name+'…';
     try{
-      const url=`${BASE}?gid=${SHEETS[i].gid}&single=true&output=csv`;
-      const res=await fetch(url);
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const text=await res.text();
-      const rows=parseCSV(text);
-      if(rows.length<1) throw new Error('Empty');
-      S.headers[i]=rows[0];
-      S.raw[i]=rows.slice(1).filter(r=>r.some(c=>c!==''));
-      step.classList.remove('active');
-      step.classList.add('done');
-      step.querySelector('.step-icon').textContent='✅';
-      step.querySelector('span:last-child') && (step.lastChild.textContent=`${SHEETS[i].name} — ${S.raw[i].length} rows`);
-      success++;
+      const r=await fetch(`${BASE}?gid=${SHEETS[i].gid}&single=true&output=csv`);
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const t=await r.text();
+      const rows=parseCSV(t);
+      if(!rows.length) throw new Error('Empty');
+      D.hdr[i]=rows[0];
+      D.raw[i]=rows.slice(1).filter(r=>r.some(c=>c!==''));
+      ms.classList.remove('active'); ms.classList.add('done');
+      ms.textContent='✅  '+SHEETS[i].name+' — '+D.raw[i].length.toLocaleString()+' rows';
     }catch(e){
-      step.classList.remove('active');
-      step.querySelector('.step-icon').textContent='❌';
+      ms.classList.remove('active'); ms.classList.add('fail');
+      ms.textContent='❌  '+SHEETS[i].name+': '+e.message;
     }
-    document.getElementById('modalProgBar').style.width=((i+1)/3*100)+'%';
+    document.getElementById('mpbar').style.width=((i+1)/3*100)+'%';
     await new Promise(r=>setTimeout(r,300));
   }
+  await new Promise(r=>setTimeout(r,600));
+  document.getElementById('modal').classList.remove('open');
 
-  await new Promise(r=>setTimeout(r,500));
-  document.getElementById('importModal').classList.remove('open');
+  if(D.raw.some(r=>r)){
+    D.ok=true;
+    document.getElementById('hStatus').textContent='Imported '+new Date().toLocaleTimeString();
+    document.getElementById('btnReimport').style.display='flex';
+    document.getElementById('btnExport').style.display='flex';
+    document.getElementById('toolbar').style.display='flex';
+    document.getElementById('impScreen').style.display='none';
 
-  if(success>0){
-    S.imported=true;
-    document.getElementById('importStatus').textContent=`Imported ${new Date().toLocaleTimeString()}`;
-    document.getElementById('reImportBtn').style.display='flex';
-    document.getElementById('exportBtn').style.display='flex';
-    document.getElementById('mainToolbar').style.display='flex';
-
-    // Update tab counts
-    SHEETS.forEach((_,i)=>{
-      if(S.raw[i]) document.getElementById('tc'+i).textContent=S.raw[i].length.toLocaleString();
-      document.getElementById('tab'+i).classList.add('loaded');
-    });
-
-    // Hide import screen, show tables
-    document.getElementById('importScreen0').style.display='none';
     for(let i=0;i<3;i++){
-      if(S.raw[i]){
-        document.getElementById('tableWrap'+i).style.display='block';
-        if(document.getElementById('stateBox'+i)) document.getElementById('stateBox'+i).style.display='none';
-        initTable(i);
+      if(D.raw[i]){
+        document.getElementById('tp'+i).textContent=D.raw[i].length.toLocaleString();
+        const s=document.getElementById('state'+i);if(s)s.style.display='none';
+        document.getElementById('wrap'+i).style.display='block';
+        buildHead(i,i); renderBody(i);
       }
     }
-    // Init filter report
-    selectFilterSheet(0);
-    renderAll(S.activeTab);
+    setFSheet(0);
   }
 }
 
-// ── RENDER TABLE ─────────────────────────────────────────────────────
-function getFilteredRows(idx){
-  if(!S.raw[idx]) return [];
-  let rows=[...S.raw[idx]];
-  // col filters
-  const cf=S.colFilters[idx]||{};
+// ═══════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════
+function si(tab){return tab===3?D.fSheet:tab;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function getRows(tab){
+  const s=si(tab);
+  if(!D.raw[s]) return [];
+  let rows=[...D.raw[s]];
+  // column filters
+  const cf=D.colF[s]||{};
   for(const [ci,vals] of Object.entries(cf)){
-    if(!vals||vals.size===0) continue;
-    rows=rows.filter(r=>(vals.has(r[+ci]??'')));
+    if(!vals||!vals.size) continue;
+    rows=rows.filter(r=>vals.has(r[+ci]??''));
   }
   // search
-  const q=(S.search[idx]||'').toLowerCase();
+  const q=(D.srch[tab]||'').toLowerCase();
   if(q) rows=rows.filter(r=>r.some(c=>(c||'').toLowerCase().includes(q)));
-  return rows;
-}
-
-function getDisplayIdx(tab){return tab===3?S.filterSheet:tab;}
-
-function renderAll(tab){
-  const idx=getDisplayIdx(tab);
-  if(!S.raw[idx]) return;
-
-  let rows=getFilteredRows(idx);
-
-  // Sort
-  const sc=S.sortCol[tab];
+  // sort
+  const sc=D.sCol[tab];
   if(sc>=0){
-    const sd=S.sortDir[tab];
+    const sd=D.sDir[tab];
     rows.sort((a,b)=>{
       const av=a[sc]??'',bv=b[sc]??'';
       const an=parseFloat(av),bn=parseFloat(bv);
@@ -724,245 +458,208 @@ function renderAll(tab){
       return av.localeCompare(bv)*sd;
     });
   }
-
-  // Pagination
-  const pp=S.perPage[tab];
-  const pg=S.page[tab];
-  const total=rows.length;
-  const start=pg*pp;
-  const slice=pp>=9999?rows:rows.slice(start,start+pp);
-
-  // Body
-  const headers=S.headers[idx];
-  const tbody=document.getElementById('tb'+tab);
-  if(!tbody) return;
-
-  if(rows.length===0){
-    tbody.innerHTML=`<tr><td colspan="${headers.length+1}" style="text-align:center;padding:40px;color:var(--text3)">No rows match your filters</td></tr>`;
-  } else {
-    tbody.innerHTML=slice.map((row,ri)=>{
-      // Determine row signal class
-      let rowCls='';
-      const rowText=row.join(' ');
-      for(const rule of SIGNAL_RULES){
-        if(rule.pattern.test(rowText)&&rule.rowCls){rowCls=rule.rowCls;break;}
-      }
-      const cells=headers.map((_,ci)=>{
-        let val=row[ci]??'';
-        let display=val;
-        // Color signal cells
-        for(const rule of SIGNAL_RULES){
-          if(rule.pattern.test(val)){
-            display=`<span class="${rule.cls}">${val}</span>`;
-            break;
-          }
-        }
-        return `<td>${display}</td>`;
-      });
-      return `<tr class="${rowCls}"><td class="rn">${start+ri+1}</td>${cells.join('')}</tr>`;
-    }).join('');
-  }
-
-  // Update count badge
-  document.getElementById('tc'+(tab===3?'3':tab)).textContent=total.toLocaleString();
-  document.getElementById('resultCount').textContent=`${total.toLocaleString()} rows`;
-
-  if(tab===3) document.getElementById('tc3').textContent=total.toLocaleString();
-
-  renderPagination(tab, total, rows);
+  return rows;
 }
 
-function initTable(idx){
-  renderHeader(idx,idx);
-}
-
-function renderHeader(tab, sheetIdx){
-  const headers=S.headers[sheetIdx];
-  const sc=S.sortCol[tab];
-  const sd=S.sortDir[tab];
-  const thead=document.getElementById('th'+tab);
-  if(!thead||!headers) return;
-
-  const cf=S.colFilters[sheetIdx]||{};
-  const ths=headers.map((h,ci)=>{
-    const hasFilter=cf[ci]&&cf[ci].size>0;
-    const sortCls=sc===ci?(sd===1?'sort-asc':'sort-desc'):'';
-    return `<th>
-      <div class="th-inner">
-        <div class="th-label ${sortCls}" onclick="onSort(${tab},${ci})">${h||'–'}</div>
-        <button class="th-filter${hasFilter?' active':''}" onclick="openFilterPopup(event,${tab},${sheetIdx},${ci})" title="Filter">▾</button>
+// ═══════════════════════════════════
+// BUILD HEADER
+// ═══════════════════════════════════
+function buildHead(tab,sheetIdx){
+  const hdrs=D.hdr[sheetIdx]; if(!hdrs) return;
+  const sc=D.sCol[tab],sd=D.sDir[tab];
+  const cf=D.colF[sheetIdx]||{};
+  let html='<tr><th style="width:36px;background:#f1f5f9;border-right:1px solid var(--bdr2);border-bottom:2px solid var(--bdr)"><div style="height:36px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--txt3);font-weight:700">#</div></th>';
+  hdrs.forEach((h,ci)=>{
+    const sc2=sc===ci?(sd===1?' asc':' desc'):'';
+    const hasF=cf[ci]&&cf[ci].size>0;
+    html+=`<th>
+      <div class="th-wrap">
+        <div class="th-sort${sc2}" onclick="onSort(${tab},${ci})">${esc(h||'–')}</div>
+        <button class="th-flt${hasF?' on':''}" onclick="fpOpen(event,${tab},${sheetIdx},${ci})">▾</button>
       </div>
     </th>`;
   });
-  thead.innerHTML=`<tr><th style="width:40px;background:#f8fafc;border-right:1px solid var(--border2)"><div style="padding:8px 4px;font-size:10px;color:var(--text3);text-align:center">#</div></th>${ths.join('')}</tr>`;
+  html+='</tr>';
+  document.getElementById('thead'+tab).innerHTML=html;
 }
 
-// ── SORT ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════
+// RENDER BODY with signal colors
+// ═══════════════════════════════════
+function renderBody(tab){
+  const s=si(tab);
+  if(!D.raw[s]) return;
+  const hdrs=D.hdr[s];
+  const rows=getRows(tab);
+  const pp=D.pp[tab],pg=D.pg[tab],total=rows.length;
+  const slice=pp>=9999?rows:rows.slice(pg*pp,(pg+1)*pp);
+  const tbody=document.getElementById('tbody'+tab);
+  if(!tbody) return;
+
+  if(!rows.length){
+    tbody.innerHTML=`<tr><td colspan="${hdrs.length+1}" style="text-align:center;padding:40px;color:var(--txt3)">No rows match</td></tr>`;
+    document.getElementById('pag'+tab).innerHTML='';
+    document.getElementById('tp'+(tab===3?3:tab)).textContent='0';
+    document.getElementById('rowInfo').textContent='0 rows';
+    return;
+  }
+
+  // Build rows — detect signal in EVERY cell
+  const html=slice.map((row,ri)=>{
+    // Find row class from any signal cell
+    let rCls='';
+    for(const cell of row){const sg=getSig(cell);if(sg){rCls=ROWCLS[sg];break;}}
+
+    const cells=hdrs.map((_,ci)=>{
+      const val=row[ci]??'';
+      const sg=getSig(val);
+      return '<td>'+(sg?`<span class="${BADGE[sg]}">${esc(val)}</span>`:esc(val))+'</td>';
+    });
+    return `<tr class="${rCls}"><td class="rn">${pg*pp+ri+1}</td>${cells.join('')}</tr>`;
+  }).join('');
+
+  tbody.innerHTML=html;
+  document.getElementById('tp'+(tab===3?3:tab)).textContent=total.toLocaleString();
+  document.getElementById('rowInfo').textContent=total.toLocaleString()+' rows';
+  renderPag(tab,total);
+}
+
+// ═══════════════════════════════════
+// SORT
+// ═══════════════════════════════════
 function onSort(tab,col){
-  if(S.sortCol[tab]===col) S.sortDir[tab]*=-1;
-  else{S.sortCol[tab]=col;S.sortDir[tab]=1;}
-  S.page[tab]=0;
-  renderHeader(tab,getDisplayIdx(tab));
-  renderAll(tab);
+  if(D.sCol[tab]===col) D.sDir[tab]*=-1;
+  else{D.sCol[tab]=col;D.sDir[tab]=1;}
+  D.pg[tab]=0;
+  buildHead(tab,si(tab));
+  renderBody(tab);
 }
 
-// ── SEARCH ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════
 function onSearch(){
-  const q=document.getElementById('globalSearch').value;
-  const tab=S.activeTab;
-  S.search[tab]=q;
-  S.page[tab]=0;
-  renderAll(tab);
+  D.srch[D.tab]=document.getElementById('srchInput').value;
+  D.pg[D.tab]=0;
+  renderBody(D.tab);
 }
 
-// ── COLUMN FILTER POPUP ───────────────────────────────────────────────
-let _fpTab=-1,_fpSheet=-1,_fpCol=-1,_fpAllVals=[];
+// ═══════════════════════════════════
+// FILTER POPUP
+// ═══════════════════════════════════
+let _FT=-1,_FSI=-1,_FCI=-1,_FVALS=[];
 
-function openFilterPopup(e,tab,sheetIdx,col){
+function fpOpen(e,tab,sheetIdx,col){
   e.stopPropagation();
-  _fpTab=tab;_fpSheet=sheetIdx;_fpCol=col;
-
-  const rows=S.raw[sheetIdx]||[];
-  _fpAllVals=[...new Set(rows.map(r=>r[col]??''))].sort((a,b)=>{
+  _FT=tab;_FSI=sheetIdx;_FCI=col;
+  _FVALS=[...new Set((D.raw[sheetIdx]||[]).map(r=>r[col]??''))].sort((a,b)=>{
     const an=parseFloat(a),bn=parseFloat(b);
     if(!isNaN(an)&&!isNaN(bn)) return an-bn;
     return a.localeCompare(b);
   });
-
-  const selected=S.colFilters[sheetIdx][col]||new Set(_fpAllVals);
   document.getElementById('fpSearch').value='';
-  renderFpList(_fpAllVals,selected);
-
-  const popup=document.getElementById('filterPopup');
-  popup.classList.add('open');
-
-  // Position near button
-  const rect=e.target.getBoundingClientRect();
-  const pW=220,pH=320;
-  let left=rect.left;
-  let top=rect.bottom+4;
-  if(left+pW>window.innerWidth) left=window.innerWidth-pW-8;
-  if(top+pH>window.innerHeight) top=rect.top-pH-4;
-  popup.style.left=left+'px';
-  popup.style.top=top+'px';
+  fpRender();
+  const pop=document.getElementById('fpop');
+  pop.classList.add('open');
+  const rect=e.currentTarget.getBoundingClientRect();
+  let L=rect.left,T=rect.bottom+3;
+  if(L+230>window.innerWidth) L=window.innerWidth-234;
+  if(T+320>window.innerHeight) T=rect.top-320;
+  pop.style.left=L+'px'; pop.style.top=T+'px';
 }
 
-function renderFpList(vals,selected){
-  const list=document.getElementById('fpList');
-  list.innerHTML=vals.map(v=>{
-    const chk=selected.has(v)||selected.size===0;
-    const disp=v===''?'(Blank)':v;
-    return `<div class="fp-item">
-      <input type="checkbox" id="fpc_${v.replace(/"/g,'')}" value="${v}" ${chk?'checked':''}>
-      <label for="fpc_${v.replace(/"/g,'')}">${disp}</label>
-    </div>`;
+function fpRender(){
+  const q=document.getElementById('fpSearch').value.toLowerCase();
+  const cf=D.colF[_FSI][_FCI];
+  // If no filter set → all checked; otherwise check the set
+  const sel=cf||new Set(_FVALS);
+  const allSel=!cf; // if no filter = all selected
+  const show=q?_FVALS.filter(v=>v.toLowerCase().includes(q)):_FVALS;
+  document.getElementById('fpBody').innerHTML=show.map(v=>{
+    const id='fp_'+Math.abs(v.split('').reduce((a,c)=>a+c.charCodeAt(0),0))+'_'+v.length;
+    const chk=allSel||sel.has(v);
+    const sg=getSig(v);
+    const lbl=v===''?'(Blank)':esc(v);
+    const display=sg?`<span class="${BADGE[sg]}" style="font-size:10px;padding:1px 5px">${lbl}</span>`:lbl;
+    return `<div class="fp-row"><input type="checkbox" id="${id}" value="${esc(v)}" ${chk?'checked':''}><label for="${id}">${display}</label></div>`;
   }).join('');
 }
 
-function fpFilter(){
-  const q=document.getElementById('fpSearch').value.toLowerCase();
-  const filtered=_fpAllVals.filter(v=>v.toLowerCase().includes(q));
-  const selected=S.colFilters[_fpSheet][_fpCol]||new Set(_fpAllVals);
-  renderFpList(filtered,selected);
+function fpAll(){document.querySelectorAll('#fpBody input').forEach(c=>c.checked=true);}
+function fpNone(){document.querySelectorAll('#fpBody input').forEach(c=>c.checked=false);}
+function fpClose(){document.getElementById('fpop').classList.remove('open');}
+
+function fpApply(){
+  const checked=new Set([...document.querySelectorAll('#fpBody input:checked')].map(c=>c.value));
+  if(checked.size===0||checked.size===_FVALS.length) delete D.colF[_FSI][_FCI];
+  else D.colF[_FSI][_FCI]=checked;
+  fpClose();
+  D.pg[_FT]=0;
+  buildHead(_FT,_FSI);
+  renderBody(_FT);
+  updateChips();
 }
 
-function fpSelectAll(){
-  document.querySelectorAll('#fpList input').forEach(cb=>cb.checked=true);
-}
-function fpClearAll(){
-  document.querySelectorAll('#fpList input').forEach(cb=>cb.checked=false);
-}
+document.addEventListener('click',e=>{if(!document.getElementById('fpop').contains(e.target))fpClose();});
 
-function applyColumnFilter(){
-  const checked=new Set([...document.querySelectorAll('#fpList input:checked')].map(cb=>cb.value));
-  // If all selected = no filter
-  if(checked.size===_fpAllVals.length||checked.size===0){
-    delete S.colFilters[_fpSheet][_fpCol];
-  } else {
-    S.colFilters[_fpSheet][_fpCol]=checked;
-  }
-  closeFilterPopup();
-  S.page[_fpTab]=0;
-  renderHeader(_fpTab,_fpSheet);
-  renderAll(_fpTab);
-  updateFilterChips();
-}
-
-function closeFilterPopup(){document.getElementById('filterPopup').classList.remove('open')}
-document.addEventListener('click',e=>{
-  if(!document.getElementById('filterPopup').contains(e.target)) closeFilterPopup();
-});
-
-function updateFilterChips(){
-  const tab=S.activeTab;
-  const sheetIdx=getDisplayIdx(tab);
-  const cf=S.colFilters[sheetIdx]||{};
-  const headers=S.headers[sheetIdx]||[];
-  const container=document.getElementById('activeFilters');
-  const clearBtn=document.getElementById('clearAllBtn');
-
+// ═══════════════════════════════════
+// CHIPS
+// ═══════════════════════════════════
+function updateChips(){
+  const s=si(D.tab);
+  const cf=D.colF[s]||{};
+  const hdrs=D.hdr[s]||[];
   const chips=Object.entries(cf).filter(([,v])=>v&&v.size>0).map(([ci,vals])=>{
-    const hdr=headers[+ci]||`Col ${+ci+1}`;
-    const preview=[...vals].slice(0,2).join(', ')+(vals.size>2?`…+${vals.size-2}`:'');
-    return `<div class="filter-chip">${hdr}: ${preview}<button onclick="removeChip(${ci})">×</button></div>`;
+    const h=hdrs[+ci]||('Col'+(+ci+1));
+    const prev=[...vals].slice(0,2).map(esc).join(', ')+(vals.size>2?` +${vals.size-2}`:'');
+    return `<div class="chip">${esc(h)}: ${prev}<button onclick="removeChip(${ci})">×</button></div>`;
   });
-  container.innerHTML=chips.join('');
-  clearBtn.style.display=chips.length?'block':'none';
+  document.getElementById('chipArea').innerHTML=chips.join('');
+  document.getElementById('clearBtn').style.display=chips.length?'block':'none';
 }
 
 function removeChip(ci){
-  const sheetIdx=getDisplayIdx(S.activeTab);
-  delete S.colFilters[sheetIdx][ci];
-  S.page[S.activeTab]=0;
-  renderHeader(S.activeTab,sheetIdx);
-  renderAll(S.activeTab);
-  updateFilterChips();
+  const s=si(D.tab);
+  delete D.colF[s][ci];
+  D.pg[D.tab]=0;
+  buildHead(D.tab,s);
+  renderBody(D.tab);
+  updateChips();
 }
 
-function clearAllFilters(){
-  const sheetIdx=getDisplayIdx(S.activeTab);
-  S.colFilters[sheetIdx]={};
-  S.search[S.activeTab]='';
-  document.getElementById('globalSearch').value='';
-  S.page[S.activeTab]=0;
-  renderHeader(S.activeTab,sheetIdx);
-  renderAll(S.activeTab);
-  updateFilterChips();
+function clearAll(){
+  const s=si(D.tab);
+  D.colF[s]={};
+  D.srch[D.tab]='';
+  document.getElementById('srchInput').value='';
+  D.pg[D.tab]=0;
+  buildHead(D.tab,s);
+  renderBody(D.tab);
+  updateChips();
 }
 
-// ── PAGINATION ───────────────────────────────────────────────────────
-function renderPagination(tab, total, rows){
-  const pp=S.perPage[tab];
-  const pg=S.page[tab];
-  const totalPages=pp>=9999?1:Math.ceil(total/pp);
-  const pag=document.getElementById('pag'+tab);
-  if(!pag) return;
-
-  if(total===0){pag.innerHTML='';return;}
-
-  const start=pp>=9999?1:pg*pp+1;
-  const end=pp>=9999?total:Math.min((pg+1)*pp,total);
-
-  let pagesBtns='';
-  const mkBtn=(p,lbl,active,disabled)=>
-    `<button class="pag-btn${active?' active':''}${disabled?' ':''}" ${disabled?'disabled':''} onclick="goPage(${tab},${p})">${lbl}</button>`;
-
-  pagesBtns+=mkBtn(pg-1,'‹',false,pg===0);
-  if(totalPages<=7){
-    for(let i=0;i<totalPages;i++) pagesBtns+=mkBtn(i,i+1,i===pg,false);
-  } else {
-    pagesBtns+=mkBtn(0,1,pg===0,false);
-    if(pg>2) pagesBtns+=`<button class="pag-btn" disabled>…</button>`;
-    for(let i=Math.max(1,pg-1);i<=Math.min(totalPages-2,pg+1);i++) pagesBtns+=mkBtn(i,i+1,i===pg,false);
-    if(pg<totalPages-3) pagesBtns+=`<button class="pag-btn" disabled>…</button>`;
-    pagesBtns+=mkBtn(totalPages-1,totalPages,pg===totalPages-1,false);
+// ═══════════════════════════════════
+// PAGINATION
+// ═══════════════════════════════════
+function renderPag(tab,total){
+  const pp=D.pp[tab],pg=D.pg[tab];
+  const tp=pp>=9999?1:Math.ceil(total/pp);
+  const s=pp>=9999?1:pg*pp+1,e=pp>=9999?total:Math.min((pg+1)*pp,total);
+  const mk=(p,l,on,dis)=>`<button class="pb${on?' on':''}" ${dis?'disabled':''} onclick="goPg(${tab},${p})">${l}</button>`;
+  let b=mk(pg-1,'‹',false,pg===0);
+  if(tp<=7){for(let i=0;i<tp;i++)b+=mk(i,i+1,i===pg,false);}
+  else{
+    b+=mk(0,1,pg===0,false);
+    if(pg>2)b+=`<button class="pb" disabled>…</button>`;
+    for(let i=Math.max(1,pg-1);i<=Math.min(tp-2,pg+1);i++)b+=mk(i,i+1,i===pg,false);
+    if(pg<tp-3)b+=`<button class="pb" disabled>…</button>`;
+    b+=mk(tp-1,tp,pg===tp-1,false);
   }
-  pagesBtns+=mkBtn(pg+1,'›',false,pg>=totalPages-1);
-
-  pag.innerHTML=`
-    <div style="display:flex;align-items:center;gap:10px">
-      <span class="pag-info">${start.toLocaleString()}–${end.toLocaleString()} of ${total.toLocaleString()}</span>
-      <select class="pag-size" onchange="setPerPage(${tab},this.value)">
+  b+=mk(pg+1,'›',false,pg>=tp-1);
+  document.getElementById('pag'+tab).innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="pag-info">${s.toLocaleString()}–${e.toLocaleString()} of ${total.toLocaleString()}</span>
+      <select class="pag-sz" onchange="setPP(${tab},this.value)">
         <option value="50"${pp===50?' selected':''}>50/page</option>
         <option value="100"${pp===100?' selected':''}>100/page</option>
         <option value="250"${pp===250?' selected':''}>250/page</option>
@@ -970,79 +667,69 @@ function renderPagination(tab, total, rows){
         <option value="9999"${pp>=9999?' selected':''}>All</option>
       </select>
     </div>
-    <div class="pag-controls">${pagesBtns}</div>`;
+    <div class="pag-ctrl">${b}</div>`;
 }
 
-function goPage(tab,p){
-  const idx=getDisplayIdx(tab);
-  const total=getFilteredRows(idx).length;
-  const tp=Math.ceil(total/S.perPage[tab]);
+function goPg(tab,p){
+  const tp=Math.ceil(getRows(tab).length/D.pp[tab]);
   if(p<0||p>=tp) return;
-  S.page[tab]=p;
-  renderAll(tab);
+  D.pg[tab]=p; renderBody(tab);
 }
-function setPerPage(tab,v){S.perPage[tab]=parseInt(v);S.page[tab]=0;renderAll(tab);}
+function setPP(tab,v){D.pp[tab]=parseInt(v);D.pg[tab]=0;renderBody(tab);}
 
-// ── TAB SWITCHING ─────────────────────────────────────────────────────
-function switchTab(idx){
-  S.activeTab=idx;
+// ═══════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════
+function gotoTab(idx){
+  D.tab=idx;
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
   document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
-
-  if(S.imported){
-    document.getElementById('globalSearch').value='';
-    S.search[idx]='';
-    renderHeader(idx,getDisplayIdx(idx));
-    renderAll(idx);
-    updateFilterChips();
+  if(D.ok){
+    document.getElementById('srchInput').value='';
+    D.srch[idx]='';
+    updateChips();
+    if(idx<3) renderBody(idx);
   }
 }
 
-// ── FILTER REPORT ─────────────────────────────────────────────────────
-function selectFilterSheet(idx){
-  S.filterSheet=idx;
-  document.querySelectorAll('.fsheet-btn').forEach((b,i)=>{
-    b.classList.toggle('active',i===idx);
-    b.style.background=i===idx?'var(--accent)':'';
-    b.style.color=i===idx?'white':'';
-    b.style.borderColor=i===idx?'var(--accent)':'';
-  });
-
-  if(!S.imported||!S.raw[idx]){
-    document.getElementById('tableWrap3').style.display='none';
-    document.getElementById('stateBox3').style.display='block';
-    document.getElementById('stateBox3').innerHTML='<p style="color:var(--text3)">Import data first</p>';
+// ═══════════════════════════════════
+// FILTER REPORT SHEET SELECTOR
+// ═══════════════════════════════════
+function setFSheet(idx){
+  D.fSheet=idx;
+  document.querySelectorAll('.fstab').forEach((b,i)=>b.classList.toggle('on',i===idx));
+  if(!D.ok||!D.raw[idx]){
+    document.getElementById('state3').style.display='block';
+    document.getElementById('wrap3').style.display='none';
     return;
   }
-
-  document.getElementById('stateBox3').style.display='none';
-  document.getElementById('tableWrap3').style.display='block';
-  renderHeader(3,idx);
-  renderAll(3);
-  updateFilterChips();
+  document.getElementById('state3').style.display='none';
+  document.getElementById('wrap3').style.display='block';
+  D.pg[3]=0; D.sCol[3]=-1;
+  buildHead(3,idx);
+  renderBody(3);
+  updateChips();
 }
 
-// ── EXPORT ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════
 function exportCurrent(){
-  const tab=S.activeTab;
-  const idx=getDisplayIdx(tab);
-  if(!S.raw[idx]) return;
-  const rows=getFilteredRows(idx);
-  const headers=S.headers[idx];
-  const lines=[headers,...rows].map(r=>r.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(','));
-  const blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  const s=si(D.tab);
+  if(!D.raw[s]) return;
+  const rows=getRows(D.tab);
+  const hdrs=D.hdr[s];
+  const csv=[hdrs,...rows].map(r=>r.map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`${SHEETS[idx]?.name||'export'}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`${SHEETS[s]?.name||'export'}_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────
-// Auto-start import on page load
-window.addEventListener('DOMContentLoaded', ()=>{
-  // Small delay so page renders first
-  setTimeout(startImport, 400);
-});
+// ═══════════════════════════════════
+// AUTO IMPORT
+// ═══════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>setTimeout(startImport,350));
 </script>
 </body>
 </html>
